@@ -145,7 +145,7 @@ class wsProject
     /**
      * new constructor, doesn't do anything special, only setting up intial values
      */
-    public function __construct()
+    protected function __construct()
     {
         $this->__errors = '';
         $this->__msg    = '';
@@ -237,7 +237,7 @@ class wsClass extends wsProject
 
     //var $_isUser;		/** Ist der Benutzer ein befugter Nutzer? */
 
-    public function __construct()
+    protected function __construct()
     {
         $this->__tpl     = '';
         $this->__data    = null;

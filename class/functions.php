@@ -30,7 +30,7 @@ define('_WSRES_USER', 2);
 
 function percentTimeComplete($startdate, $enddate)
 {
-    $elapsed = strtotime('now') - strtotime($startdate);
+    $elapsed = time() - strtotime($startdate);
     $total   = strtotime($enddate) - strtotime($startdate);
     if ($total == 0) {
         return 100;
