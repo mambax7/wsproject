@@ -26,8 +26,8 @@
 //  ------------------------------------------------------------------------ //
 define('WS_PROJECT', true);
 
-include_once(XOOPS_ROOT_PATH . "/modules/wsproject/class/functions.php");
-include_once(XOOPS_ROOT_PATH . "/modules/wsproject/class/core.php");
+include_once XOOPS_ROOT_PATH . '/modules/wsproject/class/functions.php';
+include_once XOOPS_ROOT_PATH . '/modules/wsproject/class/core.php';
 
 function b_wsproject_show_mytasks($options)
 {

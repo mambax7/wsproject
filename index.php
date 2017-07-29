@@ -26,7 +26,7 @@
 //  ------------------------------------------------------------------------ //
 define('WS_PROJECT', true);
 
-include("header.php");
+include 'header.php';
 
 $projectmanagmer = wsProject::getInstance();
 $projectmanagmer->processInput();
@@ -35,7 +35,7 @@ $projectmanagmer->processInput();
 //print "</pre>";
 $GLOBALS['xoopsOption']['template_main'] = $projectmanagmer->getTemplate();
 
-include XOOPS_ROOT_PATH . "/header.php";
+include XOOPS_ROOT_PATH . '/header.php';
 
 $xoopsTpl->assign('lang', $projectmanagmer->getLanguageData());
 $xoopsTpl->assign('data', $projectmanagmer->getData());
@@ -44,4 +44,4 @@ if ($projectmanagmer->showComments()) {
     include XOOPS_ROOT_PATH . '/include/comment_view.php';
 }
 
-include XOOPS_ROOT_PATH . "/footer.php";
+include XOOPS_ROOT_PATH . '/footer.php';

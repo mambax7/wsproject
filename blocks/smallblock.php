@@ -25,7 +25,7 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-include_once(XOOPS_ROOT_PATH . "/modules/wsproject/class/functions.php");
+include_once XOOPS_ROOT_PATH . '/modules/wsproject/class/functions.php';
 
 function b_wsproject_show_smallblock($options)
 {
@@ -35,7 +35,7 @@ function b_wsproject_show_smallblock($options)
     $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
 
     if ($options[0] == 'random') {
-        $sql    = "SELECT project_id FROM " . $xoopsDB->prefix("ws_projects");
+        $sql    = 'SELECT project_id FROM ' . $xoopsDB->prefix('ws_projects');
         $result = $xoopsDB->query($sql);
         $count  = $xoopsDB->getRowsNum($result);
         $ran    = rand(1, $count);
@@ -49,18 +49,18 @@ function b_wsproject_show_smallblock($options)
     } else {
         $project_id = $options[0];
     }
-    $sql     = "SELECT name, startdate, enddate, description FROM " . $xoopsDB->prefix("ws_projects") . " WHERE project_id=" . $project_id;
+    $sql     = 'SELECT name, startdate, enddate, description FROM ' . $xoopsDB->prefix('ws_projects') . ' WHERE project_id=' . $project_id;
     $result  = $xoopsDB->query($sql);
     $project = $xoopsDB->fetchArray($result);
 
     //get sum houres done
-    $sql    = "SELECT SUM(hours) AS done FROM " . $xoopsDB->prefix("ws_tasks") . " WHERE status = 100 AND deleted = 0 AND project_id=" . $project_id;
+    $sql    = 'SELECT SUM(hours) AS done FROM ' . $xoopsDB->prefix('ws_tasks') . ' WHERE status = 100 AND deleted = 0 AND project_id=' . $project_id;
     $result = $xoopsDB->query($sql);
     $done   = $xoopsDB->fetchArray($result);
     $done   = $done['done'];
 
     //get sum houres open
-    $sql    = "SELECT SUM(hours) AS todo FROM " . $xoopsDB->prefix("ws_tasks") . " WHERE status < 100 AND deleted = 0 AND project_id=" . $project_id;
+    $sql    = 'SELECT SUM(hours) AS todo FROM ' . $xoopsDB->prefix('ws_tasks') . ' WHERE status < 100 AND deleted = 0 AND project_id=' . $project_id;
     $result = $xoopsDB->query($sql);
     $todo   = $xoopsDB->fetchArray($result);
     $todo   = $todo['todo'];
@@ -82,7 +82,7 @@ function b_wsproject_show_smallblock($options)
     if ($project['timedone'] <= 0) {
         $project['timeinfo'] = _WS_TASKPLANED;
     } elseif ($project['timedone'] >= 100) {
-        $project['timeinfo'] = "<b>" . _WS_OVERDUE . "</b>";
+        $project['timeinfo'] = '<b>' . _WS_OVERDUE . '</b>';
     } else {
         $project['timeinfo'] = $project['timedone'] . '% ' . _WS_TIME;
     }
@@ -90,7 +90,7 @@ function b_wsproject_show_smallblock($options)
     if ($project['workdone'] <= 0) {
         $project['workinfo'] = _WS_NOTSTARTED;
     } elseif ($project['workdone'] >= 100) {
-        $project['workinfo'] = "<b>" . _WS_COMPLETED . "</b>";
+        $project['workinfo'] = '<b>' . _WS_COMPLETED . '</b>';
     } else {
         $project['workinfo'] = $project['workdone'] . '% ' . _WS_COMPLETE;
     }
@@ -107,14 +107,14 @@ function b_wsproject_edit_smallblock($options)
     }
     $projects = getProjectsIdAndName();
 
-    $form = _MB_WSPROJECT_SHOWEDPROJECT . ": ";
+    $form = _MB_WSPROJECT_SHOWEDPROJECT . ': ';
 
-    $form .= "<select name=\"options[]\" id=\"options[]\">";
-    $form .= "<option value=\"random\" " . (($options[0] == "random") ? "selected=\"selected\"" : '') . ">" . _MB_WSPROJECT_RANDOM . "</option>";
+    $form .= '<select name="options[]" id="options[]">';
+    $form .= '<option value="random" ' . (($options[0] == 'random') ? 'selected="selected"' : '') . '>' . _MB_WSPROJECT_RANDOM . '</option>';
     foreach ($projects as $project) {
-        $form .= "<option value=\"" . $project['project_id'] . "\" " . (($options[0] == $project['project_id']) ? 'selected="selected"' : '') . ">" . $project['name'] . "</option>";
+        $form .= '<option value="' . $project['project_id'] . '" ' . (($options[0] == $project['project_id']) ? 'selected="selected"' : '') . '>' . $project['name'] . '</option>';
     }
-    $form .= "</select>";
+    $form .= '</select>';
 
     return $form;
 }

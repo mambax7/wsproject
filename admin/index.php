@@ -25,13 +25,13 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-include('../class/functions.php');
+include '../class/functions.php';
 
 include __DIR__ . '/../../../include/cp_header.php';
-if (file_exists("../language/" . $xoopsConfig['language'] . "/main.php")) {
-    include "../language/" . $xoopsConfig['language'] . "/main.php";
+if (file_exists('../language/' . $xoopsConfig['language'] . '/main.php')) {
+    include '../language/' . $xoopsConfig['language'] . '/main.php';
 } else {
-    include "../language/english/main.php";
+    include '../language/english/main.php';
 }
 
 function showAdmin()
@@ -39,15 +39,15 @@ function showAdmin()
     $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
     $myts    = MyTextSanitizer::getInstance();
     xoops_cp_header();
-    echo "<h4>" . _WS_PROJECTADMIN . "</h4>";
-    include XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
-    $form = new XoopsThemeForm(_WS_CONFIG, "addform", "index.php");
+    echo '<h4>' . _WS_PROJECTADMIN . '</h4>';
+    include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    $form = new XoopsThemeForm(_WS_CONFIG, 'addform', 'index.php');
 
     //$form_group   = new XoopsFormSelectGroup(_WS_USEDGROUPS, "group", true, getUsedGroups(), 8, true);
-    $form_admingroup = new XoopsFormSelectGroup(_WS_ADMINGROUPS, "admingroup", true, getAdminGroups(), 8, true);
+    $form_admingroup = new XoopsFormSelectGroup(_WS_ADMINGROUPS, 'admingroup', true, getAdminGroups(), 8, true);
 
-    $op_hidden     = new XoopsFormHidden("op", "set");
-    $submit_button = new XoopsFormButton("", "submir", _WS_APPLY, "submit");
+    $op_hidden     = new XoopsFormHidden('op', 'set');
+    $submit_button = new XoopsFormButton('', 'submir', _WS_APPLY, 'submit');
 
     //$form->addElement($form_group);
     $form->addElement($form_admingroup);

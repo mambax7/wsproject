@@ -25,12 +25,12 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-define("_WSRES_ADMIN", 1);
-define("_WSRES_USER", 2);
+define('_WSRES_ADMIN', 1);
+define('_WSRES_USER', 2);
 
 function percentTimeComplete($startdate, $enddate)
 {
-    $elapsed = strtotime("now") - strtotime($startdate);
+    $elapsed = strtotime('now') - strtotime($startdate);
     $total   = strtotime($enddate) - strtotime($startdate);
     if ($total == 0) {
         return 100;
@@ -38,7 +38,7 @@ function percentTimeComplete($startdate, $enddate)
         if ((100 * $elapsed / $total) == 0) {
             return 0;
         } else {
-            return sprintf("%02d", 100 * $elapsed / $total);
+            return sprintf('%02d', 100 * $elapsed / $total);
         }
     }
 }
@@ -48,7 +48,7 @@ function percentComplete($done, $todo)
     $total = $todo + $done;
     if ($total > 0) {
         $percent     = 100 * ($done / $total);
-        $percentdone = sprintf("%2d", $percent);
+        $percentdone = sprintf('%2d', $percent);
 
         return $percentdone;
     } else {
@@ -65,8 +65,8 @@ function createBar($colour, $percent)
     // FUNCTION SUBMITTED BY: DAVID HUGHES  (David.W.Hughes@cern.ch)
 
     $percent  = max(0, min(100, $percent));
-    $l_colour = ($percent == 0 ? "grey" : $colour);
-    $r_colour = ($percent == 100 ? $colour : "grey");
+    $l_colour = ($percent == 0 ? 'grey' : $colour);
+    $r_colour = ($percent == 100 ? $colour : 'grey');
     // This is a hack to avoid bad browser behaviour from using <img width=0>
     if ($percent == 0) {
         $percent = 1;
@@ -74,10 +74,10 @@ function createBar($colour, $percent)
     if ($percent == 100) {
         $percent = 99;
     }
-    $result = "<img src=\"" . XOOPS_URL . "/modules/wsproject/img/bars/bar-left-$l_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
-    $result .= "<img src=\"" . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$l_colour.gif\" border=\"0\" height=\"12\" width=\"" . ($percent * 2) . "\">";
-    $result .= "<img src=\"" . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$r_colour.gif\" border=\"0\" height=\"12\" width=\"" . (200 - $percent * 2) . "\">";
-    $result .= "<img src=\"" . XOOPS_URL . "/modules/wsproject/img/bars/bar-right-$r_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
+    $result = '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-left-$l_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$l_colour.gif\" border=\"0\" height=\"12\" width=\"" . ($percent * 2) . '">';
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$r_colour.gif\" border=\"0\" height=\"12\" width=\"" . (200 - $percent * 2) . '">';
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-right-$r_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
 
     return $result;
 }
@@ -91,8 +91,8 @@ function createMiniBar($colour, $percent)
     // FUNCTION SUBMITTED BY: DAVID HUGHES  (David.W.Hughes@cern.ch)
 
     $percent  = max(0, min(100, $percent));
-    $l_colour = ($percent == 0 ? "grey" : $colour);
-    $r_colour = ($percent == 100 ? $colour : "grey");
+    $l_colour = ($percent == 0 ? 'grey' : $colour);
+    $r_colour = ($percent == 100 ? $colour : 'grey');
     // This is a hack to avoid bad browser behaviour from using <img width=0>
     if ($percent == 0) {
         $percent = 1;
@@ -100,10 +100,10 @@ function createMiniBar($colour, $percent)
     if ($percent == 100) {
         $percent = 99;
     }
-    $result = "<img src=\"" . XOOPS_URL . "/modules/wsproject/img/bars/bar-left-$l_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
-    $result .= "<img src=\"" . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$l_colour.gif\" border=\"0\" height=\"12\" width=\"" . $percent . "\">";
-    $result .= "<img src=\"" . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$r_colour.gif\" border=\"0\" height=\"12\" width=\"" . (100 - $percent) . "\">";
-    $result .= "<img src=\"" . XOOPS_URL . "/modules/wsproject/img/bars/bar-right-$r_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
+    $result = '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-left-$l_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$l_colour.gif\" border=\"0\" height=\"12\" width=\"" . $percent . '">';
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$r_colour.gif\" border=\"0\" height=\"12\" width=\"" . (100 - $percent) . '">';
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-right-$r_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
 
     return $result;
 }
@@ -156,7 +156,7 @@ function getAdminGroups()
 
     $groups = array();
 
-    $sql    = "SELECT conf_value FROM " . $xoopsDB->prefix("ws_project") . " WHERE conf_name = 'admin_group'";
+    $sql    = 'SELECT conf_value FROM ' . $xoopsDB->prefix('ws_project') . " WHERE conf_name = 'admin_group'";
     $result = $xoopsDB->query($sql);
     while ($group_id = $xoopsDB->fetchRow($result)) {
         $groups[] = $group_id[0];
@@ -175,13 +175,13 @@ function setAdminGroups($groups)
 {
     $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
 
-    $tb_conf = $xoopsDB->prefix("ws_project");
+    $tb_conf = $xoopsDB->prefix('ws_project');
 
-    $sql    = "DELETE FROM " . $tb_conf . " WHERE conf_name='admin_group'";
+    $sql    = 'DELETE FROM ' . $tb_conf . " WHERE conf_name='admin_group'";
     $result = $xoopsDB->query($sql);
 
     foreach ($groups as $value) {
-        $sql    = "INSERT INTO " . $tb_conf . " (conf_name, conf_value) VALUES ('admin_group', '" . $value . "')";
+        $sql    = 'INSERT INTO ' . $tb_conf . " (conf_name, conf_value) VALUES ('admin_group', '" . $value . "')";
         $result = $xoopsDB->query($sql);
     }
 }
@@ -194,11 +194,11 @@ function getProjectsIdAndName()
 {
     $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
 
-    $tb_projects = $xoopsDB->prefix("ws_projects");
+    $tb_projects = $xoopsDB->prefix('ws_projects');
 
     $r = array();
 
-    $sql    = "SELECT name, project_id FROM " . $tb_projects;
+    $sql    = 'SELECT name, project_id FROM ' . $tb_projects;
     $result = $xoopsDB->query($sql);
     while ($project = $xoopsDB->fetchArray($result)) {
         $r[] = $project;
@@ -293,7 +293,7 @@ function getStatusInfos(&$data)
     if ($data['timedone'] <= 0) {
         $data['timeinfo'] = _WS_TASKPLANED;
     } elseif ($data['timedone'] >= 100) {
-        $data['timeinfo'] = "<b>" . _WS_OVERDUE . "</b>";
+        $data['timeinfo'] = '<b>' . _WS_OVERDUE . '</b>';
     } else {
         $data['timeinfo'] = $data['timedone'] . '% ' . _WS_TIME;
     }
@@ -301,7 +301,7 @@ function getStatusInfos(&$data)
     if ($data['workdone'] <= 0) {
         $data['workinfo'] = _WS_NOTSTARTED;
     } elseif ($data['workdone'] >= 100) {
-        $data['workinfo'] = "<b>" . _WS_COMPLETED . "</b>";
+        $data['workinfo'] = '<b>' . _WS_COMPLETED . '</b>';
     } else {
         $data['workinfo'] = $data['workdone'] . '% ' . _WS_COMPLETE;
     }
@@ -315,16 +315,16 @@ function getDateInfo()
 {
     $re = array();
     for ($i = 1; $i <= 12; $i++) {
-        $re['month'][$i] = date("M", mktime(0, 0, 0, $i, 1, 2000));
+        $re['month'][$i] = date('M', mktime(0, 0, 0, $i, 1, 2000));
     }
-    $re['month']['current'] = date("M");
+    $re['month']['current'] = date('M');
 
     for ($i = 1; $i <= 31; $i++) {
-        $re['day'][$i] = sprintf("%02d", $i);
+        $re['day'][$i] = sprintf('%02d', $i);
     }
-    $re['day']['current'] = date("d");
+    $re['day']['current'] = date('d');
 
-    $re['year']['current'] = date("Y");
+    $re['year']['current'] = date('Y');
     for ($i = (int)$re['year']['current'] - 3; $i <= (int)$re['year']['current'] + 3; $i++) {
         $re['year'][$i] = "$i";
     }

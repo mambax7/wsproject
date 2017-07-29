@@ -3,23 +3,23 @@
 // Module Info
 
 // The name of this module
-define("_MI_WSPROJECT_NAME", "wsProject");
+define('_MI_WSPROJECT_NAME', 'wsProject');
 // A brief description of this module
-define("_MI_WSPROJECT_DESC", "A tool to plan and administrate your projects.");
+define('_MI_WSPROJECT_DESC', 'A tool to plan and administrate your projects.');
 
 // Names of admin menu items
 define('_MI_WSPROJECT_ADMENU1', 'Settings');
 
 //Die Menüpunkte
-define("_MI_WSPROJECT_COMPLETEDPROJECTS", "Completed Projects");
+define('_MI_WSPROJECT_COMPLETEDPROJECTS', 'Completed Projects');
 
-define("_MI_WSPROJECT_ACTIVEPROJECTS", "Active Projects");
-define("_MI_WSPROJECT_MYTASKS", "My Tasks");
-define("_MI_WSPROJECT_NEWPROJECT", "New Project");
+define('_MI_WSPROJECT_ACTIVEPROJECTS', 'Active Projects');
+define('_MI_WSPROJECT_MYTASKS', 'My Tasks');
+define('_MI_WSPROJECT_NEWPROJECT', 'New Project');
 
 //Blocks
-define("_MI_WSPROJECT_PROJECTSTATUS", "Project Status");
-define("_MI_WSPROJECT_PROJECTOVERVIEW", "Project Overview");
+define('_MI_WSPROJECT_PROJECTSTATUS', 'Project Status');
+define('_MI_WSPROJECT_PROJECTOVERVIEW', 'Project Overview');
 
 //Notifications
 define('_MI_WSPROJECT_GLOBAL_NOTIFY', 'Global');
