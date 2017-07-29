@@ -38,7 +38,7 @@ function b_wsproject_show_smallblock($options)
         $sql    = 'SELECT project_id FROM ' . $xoopsDB->prefix('ws_projects');
         $result = $xoopsDB->query($sql);
         $count  = $xoopsDB->getRowsNum($result);
-        $ran    = rand(1, $count);
+        $ran    = mt_rand(1, $count);
         $i      = 0;
         while ($id = $xoopsDB->fetchArray($result)) {
             $i++;
