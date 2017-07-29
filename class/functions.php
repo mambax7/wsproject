@@ -325,7 +325,7 @@ function getDateInfo()
     $re['day']['current'] = date("d");
 
     $re['year']['current'] = date("Y");
-    for ($i = intval($re['year']['current']) - 3; $i <= intval($re['year']['current']) + 3; $i++) {
+    for ($i = (int)$re['year']['current'] - 3; $i <= (int)$re['year']['current'] + 3; $i++) {
         $re['year'][$i] = "$i";
     }
 

@@ -1780,12 +1780,12 @@ class editProject extends wsClass
         $this->__data['project_id'] = $this->_vars['project_id'];
         $this->__db->freeRecordSet($result);
 
-        $this->__data['startyear']  = intval(substr($project['startdate'], 0, 4));
-        $this->__data['startmonth'] = intval(substr($project['startdate'], 5, 2));
-        $this->__data['startday']   = intval(substr($project['startdate'], 8, 2));
-        $this->__data['endyear']    = intval(substr($project['enddate'], 0, 4));
-        $this->__data['endmonth']   = intval(substr($project['enddate'], 5, 2));
-        $this->__data['endday']     = intval(substr($project['enddate'], 8, 2));
+        $this->__data['startyear']  = (int)substr($project['startdate'], 0, 4);
+        $this->__data['startmonth'] = (int)substr($project['startdate'], 5, 2);
+        $this->__data['startday']   = (int)substr($project['startdate'], 8, 2);
+        $this->__data['endyear']    = (int)substr($project['enddate'], 0, 4);
+        $this->__data['endmonth']   = (int)substr($project['enddate'], 5, 2);
+        $this->__data['endday']     = (int)substr($project['enddate'], 8, 2);
 
         $this->__data['groups']             = $this->_memberHandler->getGroupList();
         $this->__data['projectadmingroups'] = $this->_getProjectAdminGroups($this->_vars['project_id']);
