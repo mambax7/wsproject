@@ -210,6 +210,9 @@ class wsProject
     }
 }
 
+/**
+ * Class wsClass
+ */
 class wsClass extends wsProject
 {
     /** @privatesection */
@@ -237,6 +240,9 @@ class wsClass extends wsProject
 
     //var $_isUser;		/** Ist der Benutzer ein befugter Nutzer? */
 
+    /**
+     * wsClass constructor.
+     */
     protected function __construct()
     {
         $this->__tpl     = '';
@@ -353,6 +359,7 @@ class wsClass extends wsProject
      * @desc protected setzt die richtige Einrückweite, kann notwendig sein, wenn der Parent-Task weiter hinten in der DB steht
      * Die Seite wird aus den Daten in $this->__data generiert.
      * @protected
+     * @param $task_id
      */
     public function _setCorrectIndent($task_id)
     {
@@ -443,6 +450,8 @@ class wsClass extends wsProject
     /**
      * @desc protected ermittelt, ob der aktuelle Benutzer beim angegebenen Projekt Admin ist
      * @protected
+     * @param      $project_id
+     * @param null $task_id
      * @return bool
      */
     public function _isProjectAdmin($project_id, $task_id = null)
@@ -481,6 +490,7 @@ class wsClass extends wsProject
     /**
      * @desc protected ermittelt, ob der aktuelle Benutzer diese Aufgabe bearbeitet
      * @protected
+     * @param $task_id
      * @return bool
      */
     public function _isTaskOwner($task_id)
@@ -503,6 +513,8 @@ class wsClass extends wsProject
     /**
      * @desc protected ermittelt, ob der aktuelle Benutzer beim angegebenen Projekt ein eingetragener Nutzer ist
      * @protected
+     * @param      $project_id
+     * @param null $task_id
      * @return bool
      */
     public function _isProjectUser($project_id, $task_id = null)
@@ -541,6 +553,7 @@ class wsClass extends wsProject
     /**
      * @desc protected ermittelt, die Gruppen, welche bei diesem Projekt als Admin eingetragen sind
      * @protected
+     * @param $project_id
      * @return array
      */
     public function _getProjectAdminGroups($project_id)
@@ -559,6 +572,7 @@ class wsClass extends wsProject
     /**
      * @desc protected ermittelt, die Gruppen, welche bei diesem Projekt als Benutzer eingetragen sind
      * @protected
+     * @param $project_id
      * @return bool
      */
     public function _getProjectUserGroups($project_id)
@@ -584,6 +598,9 @@ class wsClass extends wsProject
  */
 class myTasks extends wsClass
 {
+    /**
+     * myTasks constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -781,6 +798,9 @@ class myTasks extends wsClass
  */
 class listProjects extends wsClass
 {
+    /**
+     * listProjects constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -853,8 +873,9 @@ class listProjects extends wsClass
     /**
      * @desc protected holt die Daten aus der DB
      * @protected
+     * @param $sortorder
      */
-    public function _getData($sortorder)
+    protected function _getData($sortorder)
     {
         switch ($sortorder) {
             case 'nameup':
@@ -946,6 +967,9 @@ class listProjects extends wsClass
  */
 class listCompletedProjects extends wsClass
 {
+    /**
+     * listCompletedProjects constructor.
+     */
     public function __construct()
     {
         parent::__construct();
@@ -965,8 +989,9 @@ class listCompletedProjects extends wsClass
     /**
      * @desc protected holt die Daten aus der DB
      * @protected
+     * @param $sortorder
      */
-    public function _getData($sortorder)
+    protected function _getData($sortorder)
     {
         switch ($sortorder) {
             case 'nameup':
@@ -1053,6 +1078,9 @@ class showProject extends wsClass
         parent::__construct();
     }
 
+    /**
+     * @return \listProjects|\showProject
+     */
     public function getInstance()
     {
         $action = new showProject();
@@ -1144,8 +1172,9 @@ class showProject extends wsClass
     /**
      * @desc protected holt die Daten aus der DB
      * @protected
+     * @param $sortorder
      */
-    public function _getData($sortorder)
+    protected function _getData($sortorder)
     {
         switch ($sortorder) {
             case 'nameup':
@@ -1297,6 +1326,11 @@ class showProject extends wsClass
         $this->__lang['reactivate']      = _WS_REACTIVATE;
     }
 
+    /**
+     * @param     $series_id
+     * @param     $newParent_id
+     * @param int $sParent_id
+     */
     public function addSeriesTask($series_id, $newParent_id, $sParent_id = 0)
     {
         $sql    = 'SELECT * FROM `' . $this->__db->prefix('ws_tasks') . "` WHERE project_id like $series_id AND parent_id = $sParent_id AND NOT deleted";
@@ -1307,6 +1341,14 @@ class showProject extends wsClass
         }
     }
 
+    /**
+     * @param        $parent_id
+     * @param        $user_id
+     * @param        $title
+     * @param int    $hours
+     * @param string $description
+     * @return mixed
+     */
     public function addNewTask($parent_id, $user_id, $title, $hours = 1, $description = '')
     {
         $sql    = 'INSERT INTO ' . $this->__db->prefix('ws_tasks') . " (project_id, user_id, title,
@@ -1345,6 +1387,9 @@ class showTask extends wsClass
         parent::__construct();
     }
 
+    /**
+     * @return \listProjects|\showTask
+     */
     public function getInstance()
     {
         $action = new showTask();
@@ -1525,6 +1570,9 @@ class addTask extends wsClass
         parent::__construct();
     }
 
+    /**
+     * @return \addTask|\listProjects
+     */
     public function getInstance()
     {
         $action = new addTask();
@@ -1695,11 +1743,17 @@ class addTask extends wsClass
  */
 class editProject extends wsClass
 {
+    /**
+     * editProject constructor.
+     */
     public function __construct()
     {
         parent::__construct();
     }
 
+    /**
+     * @return \editProject|\listProjects
+     */
     public function getInstance()
     {
         $action = new editProject();
@@ -1827,6 +1881,9 @@ class addProject extends wsClass
         parent::__construct();
     }
 
+    /**
+     * @return \addProject|\listProjects
+     */
     public function getInstance()
     {
         $action = new addProject();
@@ -1894,6 +1951,9 @@ class deleteProject extends wsClass
         parent::__construct();
     }
 
+    /**
+     * @return \deleteProject|\listProjects
+     */
     public function getInstance()
     {
         $action = new deleteProject();
@@ -1962,6 +2022,9 @@ class deleteTask extends wsClass
         parent::__construct();
     }
 
+    /**
+     * @return \deleteTask|\listProjects
+     */
     public function getInstance()
     {
         $action = new deleteTask();
@@ -2037,6 +2100,9 @@ class editTask extends wsClass
         parent::__construct();
     }
 
+    /**
+     * @return \editTask|\listProjects
+     */
     public function getInstance()
     {
         $action = new editTask();

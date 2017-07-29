@@ -28,6 +28,11 @@
 define('_WSRES_ADMIN', 1);
 define('_WSRES_USER', 2);
 
+/**
+ * @param $startdate
+ * @param $enddate
+ * @return int|string
+ */
 function percentTimeComplete($startdate, $enddate)
 {
     $elapsed = time() - strtotime($startdate);
@@ -43,6 +48,11 @@ function percentTimeComplete($startdate, $enddate)
     }
 }
 
+/**
+ * @param $done
+ * @param $todo
+ * @return int|string
+ */
 function percentComplete($done, $todo)
 {
     $total = $todo + $done;
@@ -56,6 +66,11 @@ function percentComplete($done, $todo)
     }
 }
 
+/**
+ * @param $colour
+ * @param $percent
+ * @return string
+ */
 function createBar($colour, $percent)
 {
     //Modified 25.07.2003 Stefan Marr
@@ -82,6 +97,11 @@ function createBar($colour, $percent)
     return $result;
 }
 
+/**
+ * @param $colour
+ * @param $percent
+ * @return string
+ */
 function createMiniBar($colour, $percent)
 {
     //Modified 25.07.2003 Stefan Marr
@@ -209,6 +229,7 @@ function getProjectsIdAndName()
 
 /**
  * @desc sortiert das Feld so, dass die Teilaufgaben, jeweils zu den Hauptaufgaben zugehörig erscheinen
+ * @param $project
  */
 function sortTasksBySubTasks(&$project)
 {
@@ -248,6 +269,10 @@ function sortTasksBySubTasks(&$project)
     }
 }
 
+/**
+ * @param $data
+ * @param $task_id
+ */
 function _setCorrectIndent($data, $task_id)
 {
     foreach ($data['tasks'][$task_id]['children'] as $key => $value) {
@@ -255,6 +280,10 @@ function _setCorrectIndent($data, $task_id)
     }
 }
 
+/**
+ * @param $array
+ * @param $parent
+ */
 function addSubTasks($array, $parent)
 {
     foreach ($parent['children'] as $value) {
@@ -273,6 +302,7 @@ function addSubTasks($array, $parent)
 
 /**
  * @desc Setzt erweiterte Statusinfos im Array das es übergeben bekommt
+ * @param $data
  */
 function getStatusInfos(&$data)
 {

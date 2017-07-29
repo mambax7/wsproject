@@ -27,6 +27,10 @@
 
 include_once XOOPS_ROOT_PATH . '/modules/wsproject/class/functions.php';
 
+/**
+ * @param $options
+ * @return mixed
+ */
 function b_wsproject_show_smallblock($options)
 {
     if ($options[0] == '') {
@@ -100,6 +104,10 @@ function b_wsproject_show_smallblock($options)
     return $project;
 }
 
+/**
+ * @param $options
+ * @return string
+ */
 function b_wsproject_edit_smallblock($options)
 {
     if ($options[0] == '') {

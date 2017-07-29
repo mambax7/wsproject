@@ -27,6 +27,10 @@
 
 include_once XOOPS_ROOT_PATH . '/modules/wsproject/class/functions.php';
 
+/**
+ * @param $options
+ * @return bool
+ */
 function b_wsproject_show_projectoverview($options)
 {
     global $memberHandler;
@@ -174,6 +178,10 @@ function b_wsproject_show_projectoverview($options)
     }
 }
 
+/**
+ * @param $options
+ * @return string
+ */
 function b_wsproject_edit_projectoverview($options)
 {
     $projects = getProjectsIdAndName();
