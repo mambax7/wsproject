@@ -25,13 +25,13 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-include '../class/functions.php';
+include __DIR__ . '/../class/functions.php';
 
 include __DIR__ . '/../../../include/cp_header.php';
-if (file_exists('../language/' . $xoopsConfig['language'] . '/main.php')) {
-    include '../language/' . $xoopsConfig['language'] . '/main.php';
+if (file_exists(__DIR__ . '/../language/' . $xoopsConfig['language'] . '/main.php')) {
+    include __DIR__ . '/../language/' . $xoopsConfig['language'] . '/main.php';
 } else {
-    include '../language/english/main.php';
+    include __DIR__ . '/../language/english/main.php';
 }
 
 function showAdmin()

@@ -26,7 +26,7 @@
 //  ------------------------------------------------------------------------ //
 define('WS_PROJECT', true);
 
-include 'header.php';
+include __DIR__ . '/header.php';
 
 $projectmanagmer = wsProject::getInstance();
 $projectmanagmer->processInput();
