@@ -33,17 +33,15 @@ $projectmanagmer->processInput();
 //print("<PRE>abc");
 //print_r($projectmanagmer);
 //print "</pre>";
-$xoopsOption['template_main'] = $projectmanagmer->getTemplate();
+$GLOBALS['xoopsOption']['template_main'] = $projectmanagmer->getTemplate();
 
-include XOOPS_ROOT_PATH."/header.php";
+include XOOPS_ROOT_PATH . "/header.php";
 
 $xoopsTpl->assign('lang', $projectmanagmer->getLanguageData());
 $xoopsTpl->assign('data', $projectmanagmer->getData());
 
 if ($projectmanagmer->showComments()) {
-	include XOOPS_ROOT_PATH.'/include/comment_view.php';
+    include XOOPS_ROOT_PATH . '/include/comment_view.php';
 }
 
-include XOOPS_ROOT_PATH."/footer.php";
-
-?>
+include XOOPS_ROOT_PATH . "/footer.php";

@@ -1,9 +1,9 @@
 Hallo {X_UNAME},
 
-A new task had been assigned to you: 
+A new task had been assigned to you:
 
-       NAME:   {TASK_NAME}
-      HOURS:   {TASK_HOURS}
+NAME:   {TASK_NAME}
+HOURS:   {TASK_HOURS}
 DESCRIPTION:   {TASK_DESC}
 
 More informations: {TASK_URL}
@@ -18,6 +18,6 @@ If this is an error or you wish not to receive further such notifications, pleas
 Bitte nicht auf diese E-Mail/PN antworten.
 
 -----------
-{X_SITENAME} ({X_SITEURL}) 
+{X_SITENAME} ({X_SITEURL})
 webmaster
 {X_ADMINMAIL}

@@ -27,58 +27,57 @@
 
 include('../class/functions.php');
 
-include '../../../include/cp_header.php';
-if ( file_exists("../language/".$xoopsConfig['language']."/main.php") ) {
-	include "../language/".$xoopsConfig['language']."/main.php";
+include __DIR__ . '/../../../include/cp_header.php';
+if (file_exists("../language/" . $xoopsConfig['language'] . "/main.php")) {
+    include "../language/" . $xoopsConfig['language'] . "/main.php";
 } else {
-	include "../language/english/main.php";
+    include "../language/english/main.php";
 }
 
-function showAdmin() {
-	$xoopsDB = Database::getInstance();
-	$myts = MyTextSanitizer::getInstance();
-	xoops_cp_header();
-    echo "<h4>"._WS_PROJECTADMIN."</h4>";
-	include XOOPS_ROOT_PATH."/class/xoopsformloader.php";
-	$form       = new XoopsThemeForm(_WS_CONFIG, "addform", "index.php");
-	
-	//$form_group   = new XoopsFormSelectGroup(_WS_USEDGROUPS, "group", true, getUsedGroups(), 8, true);
-	$form_admingroup = new XoopsFormSelectGroup(_WS_ADMINGROUPS, "admingroup", true, getAdminGroups(), 8, true);
-	
-	$op_hidden  = new XoopsFormHidden("op", "set");
-	$submit_button = new XoopsFormButton("", "submir", _WS_APPLY, "submit");
-	
-	//$form->addElement($form_group);
-	$form->addElement($form_admingroup);
-	$form->addElement($op_hidden);
-	$form->addElement($submit_button);
-	$form->display();
-	xoops_cp_footer();
+function showAdmin()
+{
+    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
+    $myts    = MyTextSanitizer::getInstance();
+    xoops_cp_header();
+    echo "<h4>" . _WS_PROJECTADMIN . "</h4>";
+    include XOOPS_ROOT_PATH . "/class/xoopsformloader.php";
+    $form = new XoopsThemeForm(_WS_CONFIG, "addform", "index.php");
+
+    //$form_group   = new XoopsFormSelectGroup(_WS_USEDGROUPS, "group", true, getUsedGroups(), 8, true);
+    $form_admingroup = new XoopsFormSelectGroup(_WS_ADMINGROUPS, "admingroup", true, getAdminGroups(), 8, true);
+
+    $op_hidden     = new XoopsFormHidden("op", "set");
+    $submit_button = new XoopsFormButton("", "submir", _WS_APPLY, "submit");
+
+    //$form->addElement($form_group);
+    $form->addElement($form_admingroup);
+    $form->addElement($op_hidden);
+    $form->addElement($submit_button);
+    $form->display();
+    xoops_cp_footer();
 }
 
 foreach ($_GET as $varname => $value) {
-	if (is_string($value)) {
-		$value = stripslashes($value);
-	}
-	$vars[$varname] = $value;
+    if (is_string($value)) {
+        $value = stripslashes($value);
+    }
+    $vars[$varname] = $value;
 }
 foreach ($_POST as $varname => $value) {
     if (is_string($value)) {
-		$value = stripslashes($value);
-	}
-	$vars[$varname] = $value;			
+        $value = stripslashes($value);
+    }
+    $vars[$varname] = $value;
 }
 
 if (isset($vars)) {
-	if ($vars['op'] == 'set') {
-		if (isset($vars['admingroup'])) {
-			setAdminGroups($vars['admingroup']);
-		}
-		else {
-			setAdminGroups(array());
-		}
-	}
+    if ($vars['op'] == 'set') {
+        if (isset($vars['admingroup'])) {
+            setAdminGroups($vars['admingroup']);
+        } else {
+            setAdminGroups(array());
+        }
+    }
 }
 
 showAdmin();
-?>

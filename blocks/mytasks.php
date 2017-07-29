@@ -26,27 +26,25 @@
 //  ------------------------------------------------------------------------ //
 define('WS_PROJECT', true);
 
-include_once(XOOPS_ROOT_PATH."/modules/wsproject/class/functions.php");
-include_once(XOOPS_ROOT_PATH."/modules/wsproject/class/core.php");
+include_once(XOOPS_ROOT_PATH . "/modules/wsproject/class/functions.php");
+include_once(XOOPS_ROOT_PATH . "/modules/wsproject/class/core.php");
 
-function b_wsproject_show_mytasks($options){
-	global $xoopsUser;
-	if ($xoopsUser != NULL) {
-		$projectmanager = wsProject::getInstance();
-		$projectmanager->processInput();
-	
-		$result['lang'] = $projectmanager->getLanguageData();
-		$result['data'] = $projectmanager->getData();
-		//print_r($result);
-		if (isset($result['data']['projects'])) {
-	 		return $result;
-		}
-		else {
-			return false;
-		}
-	}
-	else {
-		return false;
-	}
+function b_wsproject_show_mytasks($options)
+{
+    global $xoopsUser;
+    if ($xoopsUser != null) {
+        $projectmanager = wsProject::getInstance();
+        $projectmanager->processInput();
+
+        $result['lang'] = $projectmanager->getLanguageData();
+        $result['data'] = $projectmanager->getData();
+        //print_r($result);
+        if (isset($result['data']['projects'])) {
+            return $result;
+        } else {
+            return false;
+        }
+    } else {
+        return false;
+    }
 }
-?>

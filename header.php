@@ -27,4 +27,3 @@
 
 include("../../mainfile.php");
 include("class/core.php");
-?>
