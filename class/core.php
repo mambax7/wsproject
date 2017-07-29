@@ -60,7 +60,7 @@ class wsProject
      * @desc Der Konstruktor bereitet alle Variablen auf die spätere Verwendung vor
      * @prama $processInput wenn True, dann wird das passende Objekt gesucht und damit das aktuelle überschrieben
      */
-    public function getInstance()
+    public static function getInstance()
     {
 
         //Holen der Eingaben und ausführen von stripslashes
@@ -1081,7 +1081,7 @@ class showProject extends wsClass
     /**
      * @return \listProjects|\showProject
      */
-    public function getInstance()
+    public static function getInstance()
     {
         $action = new showProject();
         if (!$action->_isProjectUser($GLOBALS['project_id'])) {
@@ -1390,7 +1390,7 @@ class showTask extends wsClass
     /**
      * @return \listProjects|\showTask
      */
-    public function getInstance()
+    public static function getInstance()
     {
         $action = new showTask();
         if (!$action->_isProjectUser(null, $GLOBALS['task_id'])) {
@@ -1573,7 +1573,7 @@ class addTask extends wsClass
     /**
      * @return \addTask|\listProjects
      */
-    public function getInstance()
+    public static function getInstance()
     {
         $action = new addTask();
         if (!$action->_isProjectAdmin($GLOBALS['project_id'])) {
@@ -1754,7 +1754,7 @@ class editProject extends wsClass
     /**
      * @return \editProject|\listProjects
      */
-    public function getInstance()
+    public static function getInstance()
     {
         $action = new editProject();
         if (!$action->_isAdmin()) {
@@ -1884,7 +1884,7 @@ class addProject extends wsClass
     /**
      * @return \addProject|\listProjects
      */
-    public function getInstance()
+    public static function getInstance()
     {
         $action = new addProject();
         if (!$action->_isAdmin()) {
@@ -1954,7 +1954,7 @@ class deleteProject extends wsClass
     /**
      * @return \deleteProject|\listProjects
      */
-    public function getInstance()
+    public static function getInstance()
     {
         $action = new deleteProject();
         if (!$action->_isAdmin()) {
@@ -2025,7 +2025,7 @@ class deleteTask extends wsClass
     /**
      * @return \deleteTask|\listProjects
      */
-    public function getInstance()
+    public static function getInstance()
     {
         $action = new deleteTask();
         if (!$action->_isProjectAdmin(null, $GLOBALS['task_id'])) {
@@ -2103,7 +2103,7 @@ class editTask extends wsClass
     /**
      * @return \editTask|\listProjects
      */
-    public function getInstance()
+    public static function getInstance()
     {
         $action = new editTask();
         if (!$action->_isTaskOwner($GLOBALS['task_id'])) {
