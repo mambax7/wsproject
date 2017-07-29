@@ -114,7 +114,7 @@ function b_wsproject_show_projectoverview($options)
                     $data[$proj_id]['tasks'][$task['task_id']]['childrencompleted'] = "true";
                 }
                 if ($task['parent_id'] != "0") {
-                    $data[$proj_id]['tasks'][$task['parent_id']]['children'][] = &$data[$proj_id]['tasks'][$task['task_id']];
+                    $data[$proj_id]['tasks'][$task['parent_id']]['children'][] =& $data[$proj_id]['tasks'][$task['task_id']];
 
                     //Wenn noch nicht gesetzt, schon mal setzen, wird korregiert, wenn der Datensatz kommt
                     if (!isset($data[$proj_id]['tasks'][$task['parent_id']]['indent'])) {

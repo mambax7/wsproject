@@ -145,7 +145,7 @@ class wsProject
     /**
      * new constructor, doesn't do anything special, only setting up intial values
      */
-    public function wsProject()
+    public function __construct()
     {
         $this->__errors = "";
         $this->__msg    = "";
@@ -237,18 +237,18 @@ class wsClass extends wsProject
 
     //var $_isUser;		/** Ist der Benutzer ein befugter Nutzer? */
 
-    public function wsClass()
+    public function __construct()
     {
         $this->__tpl     = "";
         $this->__data    = null;
         $this->__isAdmin = null;
-        $this->__db      = &XoopsDatabaseFactory::getDatabaseConnection();
+        $this->__db      = XoopsDatabaseFactory::getDatabaseConnection();
 
         //Hole Xoops Variablen
         global $xoopsUser, $xoopsTpl, $xoopsOption, $memberHandler;
-        $this->_xoopsUser     = &$xoopsUser;
-        $this->_xoopsTpl      = &$xoopsTpl;
-        $this->_xoopsOption   = &$xoopsOption;
+        $this->_xoopsUser     = $xoopsUser;
+        $this->_xoopsTpl      = $xoopsTpl;
+        $this->_xoopsOption   = $xoopsOption;
         $this->_memberHandler = $memberHandler;
     }
 
@@ -584,9 +584,9 @@ class wsClass extends wsProject
  */
 class myTasks extends wsClass
 {
-    public function myTasks()
+    public function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function processInput()
@@ -781,9 +781,9 @@ class myTasks extends wsClass
  */
 class listProjects extends wsClass
 {
-    public function listProjects()
+    public function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function processInput()
@@ -946,9 +946,9 @@ class listProjects extends wsClass
  */
 class listCompletedProjects extends wsClass
 {
-    public function listCompletedProjects()
+    public function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function processInput()
@@ -1048,9 +1048,9 @@ class showProject extends wsClass
 {
 
     /** @private */
-    public function showProject()
+    protected function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function getInstance()
@@ -1232,7 +1232,7 @@ class showProject extends wsClass
                 $this->__data['tasks'][$task['task_id']]['childrencompleted'] = "true";
             }
             if ($task['parent_id'] != "0") {
-                $this->__data['tasks'][$task['parent_id']]['children'][] = &$this->__data['tasks'][$task['task_id']];
+                $this->__data['tasks'][$task['parent_id']]['children'][] =& $this->__data['tasks'][$task['task_id']];
 
                 //Wenn noch nicht gesetzt, schon mal setzen, wird korregiert, wenn der Datensatz kommt
                 if (!isset($this->__data['tasks'][$task['parent_id']]['indent'])) {
@@ -1340,9 +1340,9 @@ class showProject extends wsClass
 class showTask extends wsClass
 {
     /** @private */
-    public function showTask()
+    protected function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function getInstance()
@@ -1520,9 +1520,9 @@ class addTask extends wsClass
 {
 
     /** @private */
-    public function addTask()
+    protected function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function getInstance()
@@ -1644,7 +1644,7 @@ class addTask extends wsClass
                 $this->__data['tasks'][$task['task_id']]['childrencompleted'] = "true";
             }
             if ($task['parent_id'] != "0") {
-                $this->__data['tasks'][$task['parent_id']]['children'][] = &$this->__data['tasks'][$task['task_id']];
+                $this->__data['tasks'][$task['parent_id']]['children'][] =& $this->__data['tasks'][$task['task_id']];
 
                 //Wenn noch nicht gesetzt, schon mal setzen, wird korregiert, wenn der Datensatz kommt
                 if (!isset($this->__data['tasks'][$task['parent_id']]['indent'])) {
@@ -1695,9 +1695,9 @@ class addTask extends wsClass
  */
 class editProject extends wsClass
 {
-    public function editProject()
+    public function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function getInstance()
@@ -1822,9 +1822,9 @@ class addProject extends wsClass
 {
 
     /** @private */
-    public function addProject()
+    protected function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function getInstance()
@@ -1889,9 +1889,9 @@ class deleteProject extends wsClass
 {
 
     /** @private */
-    public function deleteProject()
+    protected function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function getInstance()
@@ -1957,9 +1957,9 @@ class deleteTask extends wsClass
 {
 
     /** @private */
-    public function deleteTask()
+    protected function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function getInstance()
@@ -2032,9 +2032,9 @@ class editTask extends wsClass
 {
 
     /** @private */
-    public function editTask()
+    protected function __construct()
     {
-        $this->wsClass();
+        parent::__construct();
     }
 
     public function getInstance()
@@ -2144,7 +2144,7 @@ class editTask extends wsClass
                 $this->__data['tasks'][$task['task_id']]['childrencompleted'] = "true";
             }
             if ($task['parent_id'] != "0") {
-                $this->__data['tasks'][$task['parent_id']]['children'][] = &$this->__data['tasks'][$task['task_id']];
+                $this->__data['tasks'][$task['parent_id']]['children'][] =& $this->__data['tasks'][$task['task_id']];
 
                 //Wenn noch nicht gesetzt, schon mal setzen, wird korregiert, wenn der Datensatz kommt
                 if (!isset($this->__data['tasks'][$task['parent_id']]['indent'])) {
