@@ -18,22 +18,10 @@
  */
 
 require_once __DIR__ . '/admin_header.php';
-// Display Admin header
 xoops_cp_header();
-$adminObject = \Xmf\Module\Admin::getInstance();
-
-
-
-//-------------------------------------
 
 $adminObject->displayNavigation(basename(__FILE__));
-//------------- Test Data ----------------------------
-//xoops_loadLanguage('admin/modulesadmin', 'system');
-//require_once __DIR__ . '/../testdata/index.php';
-//$adminObject->addItemButton(_AM_SYSTEM_MODULES_INSTALL_TESTDATA, '__DIR__ . /../../testdata/index.php?op=load', 'add');
-//$adminObject->displayButton('left', '');
-//------------- End Test Data ----------------------------
-$adminObject->displayIndex();
+$adminObject->setPaypal('xoopsfoundation@gmail.com');
+$adminObject->displayAbout(false);
 
 require_once __DIR__ . '/admin_footer.php';
-

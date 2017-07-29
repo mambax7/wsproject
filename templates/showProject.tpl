@@ -52,15 +52,15 @@
                     <td class="odd" style="text-align:center;padding:0;"><{$task.hours}></td>
                     <td class="odd" style="text-align:center;padding:0;">
                         <{if !$data.user.projectadmin or $task.children != NULL }>
-                        <img src="img/d-off.gif" border="0">
+                        <img src="assets/images/d-off.gif" border="0">
                         <{if $task.user.owner and $task.childrencompleted == "true"}>
-                        <a href="?op=showproject&amp;subop=finishtask&amp;task_id=<{$task.task_id}>&amp;project_id=<{$data.project_id}>"><img src="img/f-on.gif" border="0"></a>
+                        <a href="?op=showproject&amp;subop=finishtask&amp;task_id=<{$task.task_id}>&amp;project_id=<{$data.project_id}>"><img src="assets/images/f-on.gif" border="0"></a>
                         <{else}>
-                        <img src="img/f-off.gif" border="0">
+                        <img src="assets/images/f-off.gif" border="0">
                         <{/if}>
                         <{else}>
-                        <a href="?op=deletetask&task_id=<{$task.task_id}>"><img src="img/d-on.gif" border="0"></a>
-                        <a href="?op=showproject&amp;subop=finishtask&amp;task_id=<{$task.task_id}>&amp;project_id=<{$data.project_id}>"><img src="img/f-on.gif" border="0"></a>
+                        <a href="?op=deletetask&task_id=<{$task.task_id}>"><img src="assets/images/d-on.gif" border="0"></a>
+                        <a href="?op=showproject&amp;subop=finishtask&amp;task_id=<{$task.task_id}>&amp;project_id=<{$data.project_id}>"><img src="assets/images/f-on.gif" border="0"></a>
                         <{/if}>
                     </td>
                 </tr>
@@ -107,15 +107,15 @@
                     <td class="odd" style="text-align:center;padding:0;"><{$task.hours}></td>
                     <td class="odd" style="text-align:center;padding:0;">
                         <{if !$data.user.projectadmin or $task.children != NULL }>
-                        <img src="img/d-off.gif" border="0">
+                        <img src="assets/images/d-off.gif" border="0">
                         <{if $task.user.owner and ($task.childrencompleted == "true" and $task.status == 100) }>
-                        <a href="?op=showproject&amp;project_id=<{$data.project_id}>&amp;subop=restarttask&amp;task_id=<{$task.task_id}>"><img src="img/r-on.gif" border="0"></a>
+                        <a href="?op=showproject&amp;project_id=<{$data.project_id}>&amp;subop=restarttask&amp;task_id=<{$task.task_id}>"><img src="assets/images/r-on.gif" border="0"></a>
                         <{else}>
-                        <img src="img/r-off.gif" border="0">
+                        <img src="assets/images/r-off.gif" border="0">
                         <{/if}>
                         <{else}>
-                        <a href="?op=deletetask&task_id=<{$task.task_id}>"><img src="img/d-on.gif" border="0"></a>
-                        <a href="?op=showproject&amp;project_id=<{$data.project_id}>&amp;subop=restarttask&amp;task_id=<{$task.task_id}>"><img src="img/r-on.gif" border="0"></a>
+                        <a href="?op=deletetask&task_id=<{$task.task_id}>"><img src="assets/images/d-on.gif" border="0"></a>
+                        <a href="?op=showproject&amp;project_id=<{$data.project_id}>&amp;subop=restarttask&amp;task_id=<{$task.task_id}>"><img src="assets/images/r-on.gif" border="0"></a>
                         <{/if}>
                     </td>
                 </tr>
@@ -145,4 +145,4 @@
     </tr>
 </table>
 <br/>
-<{include file='db:system_notification_select.html'}>
+<{include file='db:system_notification_select.tpl'}>

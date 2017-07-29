@@ -89,10 +89,10 @@ function createBar($colour, $percent)
     if ($percent == 100) {
         $percent = 99;
     }
-    $result = '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-left-$l_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
-    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$l_colour.gif\" border=\"0\" height=\"12\" width=\"" . ($percent * 2) . '">';
-    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$r_colour.gif\" border=\"0\" height=\"12\" width=\"" . (200 - $percent * 2) . '">';
-    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-right-$r_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
+    $result = '<img src="' . XOOPS_URL . "/modules/wsproject/assets/images/bars/bar-left-$l_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/assets/images/bars/bar-tile-$l_colour.gif\" border=\"0\" height=\"12\" width=\"" . ($percent * 2) . '">';
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/assets/images/bars/bar-tile-$r_colour.gif\" border=\"0\" height=\"12\" width=\"" . (200 - $percent * 2) . '">';
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/assets/images/bars/bar-right-$r_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
 
     return $result;
 }
@@ -120,10 +120,10 @@ function createMiniBar($colour, $percent)
     if ($percent == 100) {
         $percent = 99;
     }
-    $result = '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-left-$l_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
-    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$l_colour.gif\" border=\"0\" height=\"12\" width=\"" . $percent . '">';
-    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-tile-$r_colour.gif\" border=\"0\" height=\"12\" width=\"" . (100 - $percent) . '">';
-    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/img/bars/bar-right-$r_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
+    $result = '<img src="' . XOOPS_URL . "/modules/wsproject/assets/images/bars/bar-left-$l_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/assets/images/bars/bar-tile-$l_colour.gif\" border=\"0\" height=\"12\" width=\"" . $percent . '">';
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/assets/images/bars/bar-tile-$r_colour.gif\" border=\"0\" height=\"12\" width=\"" . (100 - $percent) . '">';
+    $result .= '<img src="' . XOOPS_URL . "/modules/wsproject/assets/images/bars/bar-right-$r_colour.gif\" border=\"0\" height=\"12\" width=\"5\">";
 
     return $result;
 }

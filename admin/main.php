@@ -25,40 +25,59 @@
 //  Foundation, Inc., 59 Temple Place, Suite 330, Boston, MA  02111-1307 USA //
 //  ------------------------------------------------------------------------ //
 
-$moduleDirName = basename(dirname(__DIR__));
+include __DIR__ . '/../class/functions.php';
 
-if (false !== ($moduleHelper = Xmf\Module\Helper::getHelper($moduleDirName))) {
+include __DIR__ . '/../../../include/cp_header.php';
+if (file_exists(__DIR__ . '/../language/' . $xoopsConfig['language'] . '/main.php')) {
+    include __DIR__ . '/../language/' . $xoopsConfig['language'] . '/main.php';
 } else {
-    $moduleHelper = Xmf\Module\Helper::getHelper('system');
+    include __DIR__ . '/../language/english/main.php';
 }
-$adminObject = \Xmf\Module\Admin::getInstance();
 
-$pathIcon32    = \Xmf\Module\Admin::menuIconPath('');
-//$pathModIcon32 = $moduleHelper->getModule()->getInfo('modicons32');
+function showAdmin()
+{
+    $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
+    $myts    = MyTextSanitizer::getInstance();
+    xoops_cp_header();
+    echo '<h4>' . _WS_PROJECTADMIN . '</h4>';
+    include XOOPS_ROOT_PATH . '/class/xoopsformloader.php';
+    $form = new XoopsThemeForm(_WS_CONFIG, 'addform', 'main.php');
 
-// Load language files
-$moduleHelper->loadLanguage('admin');
-$moduleHelper->loadLanguage('modinfo');
-$moduleHelper->loadLanguage('main');
+    //$form_group   = new XoopsFormSelectGroup(_WS_USEDGROUPS, "group", true, getUsedGroups(), 8, true);
+    $form_admingroup = new XoopsFormSelectGroup(_WS_ADMINGROUPS, 'admingroup', true, getAdminGroups(), 8, true);
 
+    $op_hidden     = new XoopsFormHidden('op', 'set');
+    $submit_button = new XoopsFormButton('', 'submir', _WS_APPLY, 'submit');
 
-$adminmenu[] = [
-    'title' => _AM_MODULEADMIN_HOME,
-    'link'  => 'admin/index.php',
-    'icon'  => $pathIcon32 . '/home.png'
-];
+    //$form->addElement($form_group);
+    $form->addElement($form_admingroup);
+    $form->addElement($op_hidden);
+    $form->addElement($submit_button);
+    $form->display();
+    xoops_cp_footer();
+}
 
-$adminmenu[] = [
-    'title' => _MI_WSPROJECT_ADMENU1,
-    'link'  => 'admin/main.php',
-    'icon'  => $pathIcon32 . '/manage.png'
-];
+foreach ($_GET as $varname => $value) {
+    if (is_string($value)) {
+        $value = stripslashes($value);
+    }
+    $vars[$varname] = $value;
+}
+foreach ($_POST as $varname => $value) {
+    if (is_string($value)) {
+        $value = stripslashes($value);
+    }
+    $vars[$varname] = $value;
+}
 
-$adminmenu[] = [
-    'title' => _AM_MODULEADMIN_ABOUT,
-    'link'  => 'admin/about.php',
-    'icon'  => $pathIcon32 . '/about.png'
-];
+if (isset($vars)) {
+    if ($vars['op'] == 'set') {
+        if (isset($vars['admingroup'])) {
+            setAdminGroups($vars['admingroup']);
+        } else {
+            setAdminGroups(array());
+        }
+    }
+}
 
-//$adminmenu[0]['title'] = _MI_WSPROJECT_ADMENU1;
-//$adminmenu[0]['link']  = 'admin/index.php';
+showAdmin();

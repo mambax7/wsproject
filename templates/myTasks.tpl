@@ -69,9 +69,9 @@
         <td><a href="?op=showtask&task_id=<{$task.task_id}>"><{$task.title}></a></td>
         <td><{$task.description}>&nbsp;</td>
         <td align="center" nowrap="nowrap">
-            <a href="?op=showproject&amp;subop=finishtask&amp;task_id=<{$task.task_id}>&amp;project_id=<{$project.project_id}>"><img src="img/f-on.gif" border="0"></a>
+            <a href="?op=showproject&amp;subop=finishtask&amp;task_id=<{$task.task_id}>&amp;project_id=<{$project.project_id}>"><img src="assets/images/f-on.gif" border="0"></a>
             <{if $project.user.projectadmin }>
-            <a href="?op=deletetask&amp;task_id=<{$task.task_id}>" alt="<{$lang.delete}>"><img src="img/d-on.gif" border="0"></a>
+            <a href="?op=deletetask&amp;task_id=<{$task.task_id}>" alt="<{$lang.delete}>"><img src="assets/images/d-on.gif" border="0"></a>
             <{/if}>
         </td>
     </tr>
@@ -80,4 +80,4 @@
 <br/>
 <{/foreach}>
 <br/>
-<{include file='db:system_notification_select.html'}>
+<{include file='db:system_notification_select.tpl'}>

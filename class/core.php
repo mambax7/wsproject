@@ -119,7 +119,7 @@ class wsProject
                     $action = deleteTask::getInstance();
                     break;
                 default:
-                    if ($GLOBALS['xoopsUser'] == null) {
+                    if ($GLOBALS['xoopsUser'] === null) {
                         $action = new listProjects();
                     } else {
                         $action = new myTasks();
@@ -127,7 +127,7 @@ class wsProject
                     break;
             }
         } else {
-            if ($GLOBALS['xoopsUser'] == null) {
+            if ($GLOBALS['xoopsUser'] === null) {
                 $action = new listProjects();
             } else {
                 $action = new myTasks();
@@ -251,7 +251,8 @@ class wsClass extends wsProject
         $this->__db      = XoopsDatabaseFactory::getDatabaseConnection();
 
         //Hole Xoops Variablen
-        global $xoopsUser, $xoopsTpl, $xoopsOption, $memberHandler;
+        global $xoopsUser, $xoopsTpl, $xoopsOption;
+        $memberHandler = xoops_getHandler('member');
         $this->_xoopsUser     = $xoopsUser;
         $this->_xoopsTpl      = $xoopsTpl;
         $this->_xoopsOption   = $xoopsOption;
@@ -434,10 +435,10 @@ class wsClass extends wsProject
      */
     public function _isAdmin()
     {
-        if ($this->_xoopsUser == null) {
+        if ($this->_xoopsUser === null) {
             return false;
         }
-        if ($this->__isAdmin == null) {
+        if ($this->__isAdmin === null) {
             $groups = $this->_memberHandler->getGroupsByUser($this->_xoopsUser->getVar('uid'), false);
             //Bestimme ob der User in einer der AdminGruppen ist.
             $admingroup      = array_intersect($groups, getAdminGroups());
@@ -456,13 +457,13 @@ class wsClass extends wsProject
      */
     public function _isProjectAdmin($project_id, $task_id = null)
     {
-        if ($this->_xoopsUser == null) {
+        if ($this->_xoopsUser === null) {
             return false;
         }
         if ($this->_isAdmin()) {
             return true;
         } else {
-            if ($project_id == null) {
+            if ($project_id === null) {
                 //get project_id
                 $sql    = 'SELECT project_id FROM ' . $this->__db->prefix('ws_tasks') . " WHERE task_id='" . $task_id . "'";
                 $result = $this->__db->query($sql);
@@ -519,13 +520,13 @@ class wsClass extends wsProject
      */
     public function _isProjectUser($project_id, $task_id = null)
     {
-        if ($this->_xoopsUser == null) {
+        if ($this->_xoopsUser === null) {
             return false;
         }
         if ($this->_isAdmin()) {
             return true;
         } else {
-            if ($project_id == null) {
+            if ($project_id === null) {
                 //get project_id
                 $sql    = 'SELECT project_id FROM ' . $this->__db->prefix('ws_tasks') . " WHERE task_id='" . $task_id . "'";
                 $result = $this->__db->query($sql);
@@ -610,7 +611,7 @@ class myTasks extends wsClass
     {
         //Fertigstellen und Löschen der Aufgaben
         $this->_getData();
-        $this->__tpl = 'myTasks.html';
+        $this->__tpl = 'myTasks.tpl';
         $this->setLanguageData();
     }
 
@@ -866,7 +867,7 @@ class listProjects extends wsClass
         } else {
             $this->_getData('nameup');
         }
-        $this->__tpl = 'listProjects.html';
+        $this->__tpl = 'listProjects.tpl';
         $this->setLanguageData();
     }
 
@@ -875,7 +876,7 @@ class listProjects extends wsClass
      * @protected
      * @param $sortorder
      */
-    protected function _getData($sortorder)
+    public function _getData($sortorder = null)
     {
         switch ($sortorder) {
             case 'nameup':
@@ -982,7 +983,7 @@ class listCompletedProjects extends wsClass
         } else {
             $this->_getData('nameup');
         }
-        $this->__tpl = 'listCompletedProjects.html';
+        $this->__tpl = 'listCompletedProjects.tpl';
         $this->setLanguageData();
     }
 
@@ -991,7 +992,7 @@ class listCompletedProjects extends wsClass
      * @protected
      * @param $sortorder
      */
-    protected function _getData($sortorder)
+    public function _getData($sortorder = null)
     {
         switch ($sortorder) {
             case 'nameup':
@@ -1165,7 +1166,7 @@ class showProject extends wsClass
 
         //Fertigstellen und Löschen der Aufgaben
 
-        $this->__tpl = 'showProject.html';
+        $this->__tpl = 'showProject.tpl';
         $this->setLanguageData();
     }
 
@@ -1174,7 +1175,7 @@ class showProject extends wsClass
      * @protected
      * @param $sortorder
      */
-    protected function _getData($sortorder)
+    public function _getData($sortorder = null)
     {
         switch ($sortorder) {
             case 'nameup':
@@ -1461,7 +1462,7 @@ class showTask extends wsClass
             }
         }
         $this->_getData();
-        $this->__tpl = 'showTask.html';
+        $this->__tpl = 'showTask.tpl';
         $this->setLanguageData();
     }
 
@@ -1588,7 +1589,7 @@ class addTask extends wsClass
         //Fertigstellen und Löschen der Aufgaben
         $this->_getData();
         $this->_getSeriesOption();
-        $this->__tpl = 'addTask.html';
+        $this->__tpl = 'addTask.tpl';
         $this->setLanguageData();
     }
 
@@ -1807,7 +1808,7 @@ class editProject extends wsClass
 
         //Fertigstellen und Löschen der Aufgaben
         $this->_getData();
-        $this->__tpl = 'editProject.html';
+        $this->__tpl = 'editProject.tpl';
         $this->setLanguageData();
     }
 
@@ -1898,7 +1899,7 @@ class addProject extends wsClass
     {
         //Fertigstellen und Löschen der Aufgaben
         $this->_getData();
-        $this->__tpl = 'addProject.html';
+        $this->__tpl = 'addProject.tpl';
         $this->setLanguageData();
     }
 
@@ -1968,7 +1969,7 @@ class deleteProject extends wsClass
     {
         //Fertigstellen und Löschen der Aufgaben
         $this->_getData();
-        $this->__tpl = 'deleteProject.html';
+        $this->__tpl = 'deleteProject.tpl';
         $this->setLanguageData();
     }
 
@@ -2039,7 +2040,7 @@ class deleteTask extends wsClass
     {
         //Fertigstellen und Löschen der Aufgaben
         $this->_getData();
-        $this->__tpl = 'deleteTask.html';
+        $this->__tpl = 'deleteTask.tpl';
         $this->setLanguageData();
     }
 
@@ -2117,7 +2118,7 @@ class editTask extends wsClass
     {
         //Fertigstellen und Löschen der Aufgaben
         $this->_getData();
-        $this->__tpl = 'editTask.html';
+        $this->__tpl = 'editTask.tpl';
         $this->setLanguageData();
     }
 
