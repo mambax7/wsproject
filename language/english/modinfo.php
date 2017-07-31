@@ -45,3 +45,16 @@ define('_MI_WSPROJECT_EDITTASK_NOTIFY', 'Edit Task');
 define('_MI_WSPROJECT_EDITTASK_NOTIFYCAP', 'Notification on changes at tasks.');
 define('_MI_WSPROJECT_EDITTASK_NOTIFYDSC', 'Notify me if a task is changed.');
 define('_MI_WSPROJECT_EDITTASK_NOTIFYSBJ', '[{X_SITENAME}] {X_MODULE} auto-notify : Edit Task');
+//1.06
+//Help
+define('_MI_WSPROJECT_DIRNAME', basename(dirname(dirname(__DIR__))));
+define('_MI_WSPROJECT_HELP_HEADER', __DIR__.'/help/helpheader.tpl');
+define('_MI_WSPROJECT_BACK_2_ADMIN', 'Back to Administration of ');
+define('_MI_WSPROJECT_OVERVIEW', 'Overview');
+
+//define('_MI_WSPROJECT_HELP_DIR', __DIR__);
+
+//help multi-page
+define('_MI_WSPROJECT_DISCLAIMER', 'Disclaimer');
+define('_MI_WSPROJECT_LICENSE', 'License');
+define('_MI_WSPROJECT_SUPPORT', 'Support');
