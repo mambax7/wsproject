@@ -47,13 +47,13 @@ if (!defined('WS_PROJECT')) {
 class wsProject
 {
     /** @privatesection */
-    public $__errors;
+    private $__errors;
     /** Speichert die Fehlermeldungen. */
-    public $__msg;
+    private $__msg;
     /** Speichert die Hinweismeldungen. */
 
     /** @protectedsection */
-    public $_vars;
+    protected $_vars;
     /** Enthält die Variablen aus POST und GET (incl. stripslashes) */
 
     /**
@@ -228,15 +228,15 @@ class wsClass extends wsProject
     /** Speichert Ergebnis der Überprüfung */
 
     /** @protectedsection */
-    public $_vars;
+    protected $_vars;
     /** Enthält die Variablen aus POST und GET (incl. stripslashes) */
-    public $_xoopsUser;
+    protected $_xoopsUser;
     /** Ermöglicht den Zugriff auf das Xoops User-Object */
-    public $_xoopsTpl;
+    protected $_xoopsTpl;
     /** Ermöglicht den Zugriff auf das Xoops Template-Object */
-    public $_xoopsOption;
+    protected $_xoopsOption;
     /** Ermöglicht den Zugriff auf das Xoops Template-Object */
-    public $_memberHandler;
+    protected $_memberHandler;
 
     //var $_isUser;		/** Ist der Benutzer ein befugter Nutzer? */
 
@@ -293,7 +293,7 @@ class wsClass extends wsProject
      * @desc Holt alle wichtigen Daten und stellt diese in $this->__data zur Verfügung
      * @protected
      */
-    public function _getData()
+    protected function _getData()
     {
         exit;
     }
@@ -321,16 +321,16 @@ class wsClass extends wsProject
      */
     public function _restartParentTasks($task_id)
     {
-        $sql        = 'SELECT parent_id FROM ' . $this->__db->prefix('ws_tasks') . ' WHERE task_id=' . $task_id;
-        $qry_result = $this->__db->query($sql);
+        $sql        = 'SELECT parent_id FROM ' . $this->__db->prefix('wsproject_tasks') . ' WHERE task_id=' . $task_id;
+        $qry_result = $this->__db->queryF($sql);
         $task       = $this->__db->fetchArray($qry_result);
         $parent_id  = $task['parent_id'];
         while ($parent_id != 0) {
-            $sql        = 'SELECT status, parent_id FROM ' . $this->__db->prefix('ws_tasks') . ' WHERE task_id=' . $parent_id;
-            $qry_result = $this->__db->query($sql);
+            $sql        = 'SELECT status, parent_id FROM ' . $this->__db->prefix('wsproject_tasks') . ' WHERE task_id=' . $parent_id;
+            $qry_result = $this->__db->queryF($sql);
             $task       = $this->__db->fetchArray($qry_result);
             if ($task['status'] == '100') {
-                $sql        = 'UPDATE ' . $this->__db->prefix('ws_tasks') . ' SET status=90 WHERE task_id=' . $parent_id;
+                $sql        = 'UPDATE ' . $this->__db->prefix('wsproject_tasks') . ' SET status=90 WHERE task_id=' . $parent_id;
                 $qry_result = $this->__db->queryF($sql);
             }
             $parent_id = $task['parent_id'];
@@ -346,8 +346,8 @@ class wsClass extends wsProject
     public function _getSubTasks($task_id)
     {
         $result     = array();
-        $sql        = 'SELECT task_id FROM ' . $this->__db->prefix('ws_tasks') . ' WHERE parent_id=' . $task_id;
-        $qry_result = $this->__db->query($sql);
+        $sql        = 'SELECT task_id FROM ' . $this->__db->prefix('wsproject_tasks') . ' WHERE parent_id=' . $task_id;
+        $qry_result = $this->__db->queryF($sql);
         while ($task = $this->__db->fetchArray($qry_result)) {
             $result[] = $task['task_id'];
             $result   = array_merge($result, $this->_getSubTasks($task['task_id']));
@@ -465,15 +465,15 @@ class wsClass extends wsProject
         } else {
             if ($project_id === null) {
                 //get project_id
-                $sql    = 'SELECT project_id FROM ' . $this->__db->prefix('ws_tasks') . " WHERE task_id='" . $task_id . "'";
-                $result = $this->__db->query($sql);
+                $sql    = 'SELECT project_id FROM ' . $this->__db->prefix('wsproject_tasks') . " WHERE task_id='" . $task_id . "'";
+                $result = $this->__db->queryF($sql);
                 $task   = $this->__db->fetchArray($result);
                 $this->__db->freeRecordSet($result);
                 $project_id = $task['project_id'];
             }
 
-            $sql         = 'SELECT group_id FROM ' . $this->__db->prefix('ws_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_ADMIN . "'";
-            $result      = $this->__db->query($sql);
+            $sql         = 'SELECT group_id FROM ' . $this->__db->prefix('wsproject_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_ADMIN . "'";
+            $result      = $this->__db->queryF($sql);
             $admingroups = array();
             while ($id = $this->__db->fetchArray($result)) {
                 $admingroups[] = $id['group_id'];
@@ -499,8 +499,8 @@ class wsClass extends wsProject
         if ($this->_isAdmin()) {
             return true;
         } else {
-            $sql    = 'SELECT user_id FROM ' . $this->__db->prefix('ws_tasks') . " WHERE task_id='" . $task_id . "'";
-            $result = $this->__db->query($sql);
+            $sql    = 'SELECT user_id FROM ' . $this->__db->prefix('wsproject_tasks') . " WHERE task_id='" . $task_id . "'";
+            $result = $this->__db->queryF($sql);
             $id     = $this->__db->fetchArray($result);
             if (isset($id['user_id'])) {
                 $r = ($id['user_id'] == $this->_xoopsUser->getVar('uid')) ? true : false;
@@ -528,15 +528,15 @@ class wsClass extends wsProject
         } else {
             if ($project_id === null) {
                 //get project_id
-                $sql    = 'SELECT project_id FROM ' . $this->__db->prefix('ws_tasks') . " WHERE task_id='" . $task_id . "'";
-                $result = $this->__db->query($sql);
+                $sql    = 'SELECT project_id FROM ' . $this->__db->prefix('wsproject_tasks') . " WHERE task_id='" . $task_id . "'";
+                $result = $this->__db->queryF($sql);
                 $task   = $this->__db->fetchArray($result);
                 $this->__db->freeRecordSet($result);
                 $project_id = $task['project_id'];
             }
 
-            $sql        = 'SELECT group_id FROM ' . $this->__db->prefix('ws_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_USER . "'";
-            $result     = $this->__db->query($sql);
+            $sql        = 'SELECT group_id FROM ' . $this->__db->prefix('wsproject_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_USER . "'";
+            $result     = $this->__db->queryF($sql);
             $usergroups = array();
             while ($id = $this->__db->fetchArray($result)) {
                 $usergroups[] = $id['group_id'];
@@ -559,8 +559,8 @@ class wsClass extends wsProject
      */
     public function _getProjectAdminGroups($project_id)
     {
-        $sql    = 'SELECT group_id FROM ' . $this->__db->prefix('ws_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_ADMIN . "'";
-        $result = $this->__db->query($sql);
+        $sql    = 'SELECT group_id FROM ' . $this->__db->prefix('wsproject_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_ADMIN . "'";
+        $result = $this->__db->queryF($sql);
         $r      = array();
         while ($id = $this->__db->fetchArray($result)) {
             $r[] = $id['group_id'];
@@ -578,8 +578,8 @@ class wsClass extends wsProject
      */
     public function _getProjectUserGroups($project_id)
     {
-        $sql    = 'SELECT group_id FROM ' . $this->__db->prefix('ws_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_USER . "'";
-        $result = $this->__db->query($sql);
+        $sql    = 'SELECT group_id FROM ' . $this->__db->prefix('wsproject_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_USER . "'";
+        $result = $this->__db->queryF($sql);
         $r      = array();
         while ($id = $this->__db->fetchArray($result)) {
             $r[] = $id['group_id'];
@@ -619,13 +619,13 @@ class myTasks extends wsClass
      * @desc protected holt die Daten aus der DB
      * @protected
      */
-    public function _getData()
+    protected function _getData()
     {
         //init data variable
         $this->__data = array();
 
-        $tb_tasks    = $this->__db->prefix('ws_tasks');
-        $tb_projects = $this->__db->prefix('ws_projects');
+        $tb_tasks    = $this->__db->prefix('wsproject_tasks');
+        $tb_projects = $this->__db->prefix('wsproject_projects');
 
         //general user info
         //$this->_xoopsUser->rank();
@@ -662,7 +662,7 @@ class myTasks extends wsClass
                   . '.status<100 AND '
                   . $tb_tasks
                   . '.deleted = 0';
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
 
         while ($project = $this->__db->fetchArray($result)) {
             $project['done']                                                          = 0; //initialiseren, falls eine spätere query keien daten zu dem projekt liefert
@@ -682,7 +682,7 @@ class myTasks extends wsClass
 
         $sql = 'SELECT task_id, project_id, title, hours, description, startdate, enddate, status, public, parent_id, image ' . 'FROM ' . $tb_tasks . " WHERE user_id='" . $this->_xoopsUser->getVar('uid') . "' AND status < 100 AND deleted = '0' AND parent_id = '0' ORDER BY title ASC";
 
-        $result       = $this->__db->query($sql);
+        $result       = $this->__db->queryF($sql);
         $projects_ids = '';
         while ($task = $this->__db->fetchArray($result)) {
             $task['title']       = stripslashes($task['title']);
@@ -707,7 +707,7 @@ class myTasks extends wsClass
                    . $task['project_id']
                    . "' ORDER BY title ASC";
 
-            $result_sub = $this->__db->query($sql);
+            $result_sub = $this->__db->queryF($sql);
 
             while ($task_sub = $this->__db->fetchArray($result_sub)) {
                 $task_sub['title']                                        = stripslashes($task_sub['title']);
@@ -745,14 +745,14 @@ class myTasks extends wsClass
         if ($projects_ids != '') {
             //get sum houres done
             $sql    = 'SELECT SUM(hours) AS done, project_id FROM ' . $tb_tasks . " WHERE user_id='" . $this->_xoopsUser->getVar('uid') . "' AND STATUS = 100 AND deleted = 0 AND (" . $projects_ids . ') GROUP BY project_id';
-            $result = $this->__db->query($sql);
+            $result = $this->__db->queryF($sql);
             while ($done = $this->__db->fetchArray($result)) {
                 $this->__data['projects'][$done['project_id']]['done'] = $done['done'];
             }
 
             //get sum houres open
             $sql    = 'SELECT SUM(hours) AS todo, project_id FROM ' . $tb_tasks . " WHERE user_id='" . $this->_xoopsUser->getVar('uid') . "' AND STATUS < 100 AND deleted = 0 AND (" . $projects_ids . ') GROUP BY project_id';
-            $result = $this->__db->query($sql);
+            $result = $this->__db->queryF($sql);
             while ($todo = $this->__db->fetchArray($result)) {
                 $this->__data['projects'][$todo['project_id']]['todo'] = $todo['todo'];
             }
@@ -812,36 +812,36 @@ class listProjects extends wsClass
         if (isset($this->_vars['subop'])) {
             if ($this->_vars['subop'] == 'deleteproject') {
                 //delete project
-                $sql    = 'UPDATE ' . $this->__db->prefix('ws_projects') . ' SET deleted=1 WHERE project_id=' . $this->_vars['project_id'];
+                $sql    = 'UPDATE ' . $this->__db->prefix('wsproject_projects') . ' SET deleted=1 WHERE project_id=' . $this->_vars['project_id'];
                 $result = $this->__db->queryF($sql);
 
                 //delete all tasks
-                $sql    = 'UPDATE ' . $this->__db->prefix('ws_tasks') . ' SET deleted=1 WHERE project_id=' . $this->_vars['project_id'];
+                $sql    = 'UPDATE ' . $this->__db->prefix('wsproject_tasks') . ' SET deleted=1 WHERE project_id=' . $this->_vars['project_id'];
                 $result = $this->__db->queryF($sql);
             } elseif (($this->_vars['subop'] == 'add') and $this->_isAdmin()) {
                 $start = $this->_vars['startyear'] . '-' . $this->_vars['startmonth'] . '-' . $this->_vars['startday'];
                 $end   = $this->_vars['endyear'] . '-' . $this->_vars['endmonth'] . '-' . $this->_vars['endday'];
 
-                $sql    = 'INSERT INTO ' . $this->__db->prefix('ws_projects') . " (name, startdate, enddate,
+                $sql    = 'INSERT INTO ' . $this->__db->prefix('wsproject_projects') . " (name, startdate, enddate,
 						description, completed, completed_date, deleted)
 						VALUES ('" . $this->_vars['name'] . "',
 								'" . $start . "',
 								'" . $end . "',
 								'" . $this->_vars['description'] . "',
-								'0', '0', '0')";
-                $result = $this->__db->query($sql);
+								'0', null, '0')";
+                $result = $this->__db->queryF($sql);
 
                 //MERKEN: Holt die letzte ID die durch ein Insert generiert wurde
                 $project_id = $this->__db->getInsertId();
 
                 //add user restrictions
-                $tb_res = $this->__db->prefix('ws_restrictions');
+                $tb_res = $this->__db->prefix('wsproject_restrictions');
                 foreach ($this->_vars['projectadmin_groups'] as $group_id) {
                     $sql    = 'INSERT INTO ' . $tb_res . " (group_id, project_id, user_rank)
 						VALUES ('" . $group_id . "',
 								'" . $project_id . "',
 								'" . _WSRES_ADMIN . "')";
-                    $result = $this->__db->query($sql);
+                    $result = $this->__db->queryF($sql);
                 }
 
                 foreach ($this->_vars['projectuser_groups'] as $group_id) {
@@ -849,7 +849,7 @@ class listProjects extends wsClass
 						VALUES ('" . $group_id . "',
 								'" . $project_id . "',
 								'" . _WSRES_USER . "')";
-                    $result = $this->__db->query($sql);
+                    $result = $this->__db->queryF($sql);
                 }
 
                 //notify user
@@ -876,7 +876,7 @@ class listProjects extends wsClass
      * @protected
      * @param $sortorder
      */
-    public function _getData($sortorder = null)
+    protected function _getData($sortorder = null)
     {
         switch ($sortorder) {
             case 'nameup':
@@ -895,12 +895,12 @@ class listProjects extends wsClass
         //init data variable
         $this->__data = array();
 
-        $tb_tasks    = $this->__db->prefix('ws_tasks');
-        $tb_projects = $this->__db->prefix('ws_projects');
+        $tb_tasks    = $this->__db->prefix('wsproject_tasks');
+        $tb_projects = $this->__db->prefix('wsproject_projects');
 
         //Alle Projekte holen die nicht gelöscht oder fertig sind
         $sql    = 'SELECT project_id, name, startdate, enddate, description FROM ' . $tb_projects . " WHERE completed='0' AND deleted='0' ORDER BY " . $order;
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
 
         while ($project = $this->__db->fetchArray($result)) {
             $project['name']        = stripslashes($project['name']);
@@ -917,14 +917,14 @@ class listProjects extends wsClass
         if (count($this->__data) > 0) {
             //get sum houres done
             $sql    = 'SELECT SUM(hours) AS done, project_id FROM ' . $tb_tasks . ' WHERE status = 100 AND deleted = 0 GROUP BY project_id';
-            $result = $this->__db->query($sql);
+            $result = $this->__db->queryF($sql);
             while ($done = $this->__db->fetchArray($result)) {
                 $this->__data[$done['project_id']]['done'] = $done['done'];
             }
 
             //get sum houres open
             $sql    = 'SELECT SUM(hours) AS todo, project_id FROM ' . $tb_tasks . ' WHERE status < 100 AND deleted = 0 GROUP BY project_id';
-            $result = $this->__db->query($sql);
+            $result = $this->__db->queryF($sql);
             while ($todo = $this->__db->fetchArray($result)) {
                 $this->__data[$todo['project_id']]['todo'] = $todo['todo'];
             }
@@ -992,7 +992,7 @@ class listCompletedProjects extends wsClass
      * @protected
      * @param $sortorder
      */
-    public function _getData($sortorder = null)
+    protected function _getData($sortorder = null)
     {
         switch ($sortorder) {
             case 'nameup':
@@ -1011,12 +1011,12 @@ class listCompletedProjects extends wsClass
         //init data variable
         $this->__data = array();
 
-        $tb_tasks    = $this->__db->prefix('ws_tasks');
-        $tb_projects = $this->__db->prefix('ws_projects');
+        $tb_tasks    = $this->__db->prefix('wsproject_tasks');
+        $tb_projects = $this->__db->prefix('wsproject_projects');
 
         //Alle Projekte holen die nicht gelöscht aber fertig sind
         $sql    = 'SELECT project_id, name, startdate, enddate, completed_date, description FROM ' . $tb_projects . " WHERE completed='1' AND deleted='0' ORDER BY " . $order;
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
 
         while ($project = $this->__db->fetchArray($result)) {
             $project['name']        = stripslashes($project['name']);
@@ -1032,7 +1032,7 @@ class listCompletedProjects extends wsClass
 
         //get sum houres done
         $sql    = 'SELECT SUM(hours) AS done, project_id FROM ' . $tb_tasks . ' WHERE status = 100 AND deleted = 0 GROUP BY project_id';
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($done = $this->__db->fetchArray($result)) {
             if (isset($this->__data[$done['project_id']]['done'])) {
                 $this->__data[$done['project_id']]['done'] = $done['done'];
@@ -1096,19 +1096,19 @@ class showProject extends wsClass
     {
         if (isset($this->_vars['subop'])) {
             if ($this->_vars['subop'] == 'addtask' and $this->_isProjectAdmin($this->_vars['project_id'])) {
-                $sql    = 'INSERT INTO ' . $this->__db->prefix('ws_tasks') . " (project_id, user_id, title,
+                $sql    = 'INSERT INTO ' . $this->__db->prefix('wsproject_tasks') . " (project_id, user_id, title,
 						hours, startdate, enddate, description, status, public, parent_id, image, deleted)
 						VALUES ('" . $this->_vars['project_id'] . "',
 								'" . $this->_vars['user_id'] . "',
 								'" . $this->_vars['title'] . "',
 								'" . $this->_vars['hours'] . "',
 								NOW(),
-								'0',
+								null,
 								'" . $this->_vars['description'] . "',
 								'0',
 								'" . (isset($this->_vars['public']) ? '1' : '0') . "',
 								'" . $this->_vars['parent_id'] . "', 'none',	'0')";
-                $result = $this->__db->query($sql);
+                $result = $this->__db->queryF($sql);
                 //MERKEN: Holt die letzte ID die durch ein Insert generiert wurde
                 $task_id = $this->__db->getInsertId();
 
@@ -1134,7 +1134,7 @@ class showProject extends wsClass
                     $tasks .= 'OR task_id=' . $child . ' ';
                 }
 
-                $sql    = 'UPDATE ' . $this->__db->prefix('ws_tasks') . ' SET deleted=1 WHERE ' . $tasks;
+                $sql    = 'UPDATE ' . $this->__db->prefix('wsproject_tasks') . ' SET deleted=1 WHERE ' . $tasks;
                 $result = $this->__db->queryF($sql);
                 //delete xoops comments
             } elseif ($this->_vars['subop'] == 'finishtask' and $this->_isTaskOwner($this->_vars['task_id'])) {
@@ -1144,17 +1144,17 @@ class showProject extends wsClass
                     $tasks .= 'OR task_id=' . $child . ' ';
                 }
 
-                $sql    = 'UPDATE ' . $this->__db->prefix('ws_tasks') . ' SET status=100, enddate=NOW() WHERE ' . $tasks;
+                $sql    = 'UPDATE ' . $this->__db->prefix('wsproject_tasks') . ' SET status=100, enddate=NOW() WHERE ' . $tasks;
                 $result = $this->__db->queryF($sql);
             } elseif ($this->_vars['subop'] == 'restarttask' and $this->_isTaskOwner($this->_vars['task_id'])) {
-                $sql    = 'UPDATE ' . $this->__db->prefix('ws_tasks') . ' SET status=0 WHERE task_id=' . $this->_vars['task_id'];
+                $sql    = 'UPDATE ' . $this->__db->prefix('wsproject_tasks') . ' SET status=0 WHERE task_id=' . $this->_vars['task_id'];
                 $result = $this->__db->queryF($sql);
                 $this->_restartParentTasks($this->_vars['task_id']);
             } elseif ($this->_vars['subop'] == 'reactivate' and $this->_isAdmin()) {
-                $sql    = 'UPDATE ' . $this->__db->prefix('ws_projects') . ' SET completed=0 WHERE project_id=' . $this->_vars['project_id'];
+                $sql    = 'UPDATE ' . $this->__db->prefix('wsproject_projects') . ' SET completed=0 WHERE project_id=' . $this->_vars['project_id'];
                 $result = $this->__db->queryF($sql);
             } elseif ($this->_vars['subop'] == 'complete' and $this->_isAdmin()) {
-                $sql    = 'UPDATE ' . $this->__db->prefix('ws_projects') . ' SET completed=1, completed_date=NOW() WHERE project_id=' . $this->_vars['project_id'];
+                $sql    = 'UPDATE ' . $this->__db->prefix('wsproject_projects') . ' SET completed=1, completed_date=NOW() WHERE project_id=' . $this->_vars['project_id'];
                 $result = $this->__db->queryF($sql);
             }
         }
@@ -1175,7 +1175,7 @@ class showProject extends wsClass
      * @protected
      * @param $sortorder
      */
-    public function _getData($sortorder = null)
+    protected function _getData($sortorder = null)
     {
         switch ($sortorder) {
             case 'nameup':
@@ -1206,12 +1206,12 @@ class showProject extends wsClass
         //init data variable
         $this->__data = array();
 
-        $tb_tasks    = $this->__db->prefix('ws_tasks');
-        $tb_projects = $this->__db->prefix('ws_projects');
+        $tb_tasks    = $this->__db->prefix('wsproject_tasks');
+        $tb_projects = $this->__db->prefix('wsproject_projects');
 
         //Das ausgewählte Projekt holen
         $sql    = 'SELECT project_id, name, startdate, enddate, completed, completed_date, description, deleted FROM ' . $tb_projects . ' WHERE project_id=' . $this->_vars['project_id'];
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
 
         $project                = $this->__db->fetchArray($result);
         $project['name']        = stripslashes($project['name']);
@@ -1224,14 +1224,14 @@ class showProject extends wsClass
         $this->__data['sort'] = $sortorder;
         //get sum houres done
         $sql    = 'SELECT SUM(hours) AS done FROM ' . $tb_tasks . ' WHERE status = 100 AND deleted = 0 AND project_id=' . $this->_vars['project_id'];
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($done = $this->__db->fetchArray($result)) {
             $this->__data['done'] = (($done['done'] != '') ? $done['done'] : 0);
         }
 
         //get sum houres open
         $sql    = 'SELECT SUM(hours) AS todo FROM ' . $tb_tasks . ' WHERE status < 100 AND deleted = 0 AND project_id=' . $this->_vars['project_id'];
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($todo = $this->__db->fetchArray($result)) {
             $this->__data['todo'] = (($todo['todo'] != '') ? $todo['todo'] : 0);
         }
@@ -1241,7 +1241,7 @@ class showProject extends wsClass
 
         //get all tasks
         $sql    = 'SELECT task_id, user_id, title, hours, status, public, parent_id FROM ' . $tb_tasks . ' WHERE deleted = 0 AND project_id=' . $this->_vars['project_id'] . ' ORDER BY ' . $order;
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($task = $this->__db->fetchArray($result)) {
             //hier nur setzen der Felder, da eventuell schon andere Info's gesetzt wurden, wenn bereits eine Unteraufgabe in der DB stand
             $this->__data['tasks'][$task['task_id']]['task_id']       = $task['task_id'];
@@ -1334,8 +1334,8 @@ class showProject extends wsClass
      */
     public function addSeriesTask($series_id, $newParent_id, $sParent_id = 0)
     {
-        $sql    = 'SELECT * FROM `' . $this->__db->prefix('ws_tasks') . "` WHERE project_id like $series_id AND parent_id = $sParent_id AND NOT deleted";
-        $result = $this->__db->query($sql);
+        $sql    = 'SELECT * FROM `' . $this->__db->prefix('wsproject_tasks') . "` WHERE project_id like $series_id AND parent_id = $sParent_id AND NOT deleted";
+        $result = $this->__db->queryF($sql);
         while ($task = $GLOBALS['xoopsDB']->fetchBoth($result, MYSQL_ASSOC)) {
             $nextParent_id = $this->addNewTask($newParent_id, $task['user_id'], $task['title'], $task['hours'], $task['description']);
             $this->addSeriesTask($series_id, $nextParent_id, $task['task_id']);
@@ -1352,7 +1352,7 @@ class showProject extends wsClass
      */
     public function addNewTask($parent_id, $user_id, $title, $hours = 1, $description = '')
     {
-        $sql    = 'INSERT INTO ' . $this->__db->prefix('ws_tasks') . " (project_id, user_id, title,
+        $sql    = 'INSERT INTO ' . $this->__db->prefix('wsproject_tasks') . " (project_id, user_id, title,
         hours, startdate, enddate, description, status, public, parent_id, image, deleted)
         VALUES ('" . $this->_vars['project_id'] . "',
 	   '$user_id',
@@ -1364,7 +1364,7 @@ class showProject extends wsClass
 	   '0',
 	   '" . (isset($this->_vars['public']) ? '1' : '0') . "',
 	   '$parent_id', 'none',	'0')";
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
 
         //  return $GLOBALS['xoopsDB']->getInsertId($result);
         return $this->__db->getInsertId();
@@ -1405,8 +1405,8 @@ class showTask extends wsClass
     {
         if (isset($this->_vars['subop'])) {
             if (($this->_vars['subop'] == 'save') and $this->_isTaskOwner($this->_vars['task_id'])) {
-                $sql      = 'SELECT enddate, status FROM ' . $this->__db->prefix('ws_tasks') . ' WHERE task_id=' . $this->_vars['task_id'];
-                $result   = $this->__db->query($sql);
+                $sql      = 'SELECT enddate, status FROM ' . $this->__db->prefix('wsproject_tasks') . ' WHERE task_id=' . $this->_vars['task_id'];
+                $result   = $this->__db->queryF($sql);
                 $old      = $this->__db->fetchArray($result);
                 $qry_part = ''; //Genutz um die Query zu verändern
 
@@ -1419,7 +1419,7 @@ class showTask extends wsClass
                         $tasks .= 'OR task_id=' . $child . ' ';
                     }
 
-                    $sql = 'UPDATE ' . $this->__db->prefix('ws_tasks') . ' SET status=100, enddate=NOW() WHERE ' . $tasks;
+                    $sql = 'UPDATE ' . $this->__db->prefix('wsproject_tasks') . ' SET status=100, enddate=NOW() WHERE ' . $tasks;
 
                     $result = $this->__db->queryF($sql);
                 } elseif (($old['status'] != $this->_vars['status']) and ($old['status'] == '100')) {
@@ -1427,7 +1427,7 @@ class showTask extends wsClass
                 }
 
                 if ($this->_isProjectAdmin($this->_vars['task_id'])) {
-                    $sql = 'UPDATE ' . $this->__db->prefix('ws_tasks') . " SET 
+                    $sql = 'UPDATE ' . $this->__db->prefix('wsproject_tasks') . " SET 
 								user_id='" . $this->_vars['user_id'] . "',
 								title='" . $this->_vars['title'] . "',
 								hours='" . $this->_vars['hours'] . "',
@@ -1437,15 +1437,15 @@ class showTask extends wsClass
 								parent_id='" . $this->_vars['parent_id'] . "'
 								 " . $qry_part . ' WHERE task_id=' . $this->_vars['task_id'];
                 } else {
-                    $sql = 'UPDATE ' . $this->__db->prefix('ws_tasks') . " SET
+                    $sql = 'UPDATE ' . $this->__db->prefix('wsproject_tasks') . " SET
 								hours='" . $this->_vars['hours'] . "',								
 								status='" . $this->_vars['status'] . "'
 								 " . $qry_part . ' WHERE task_id=' . $this->_vars['task_id'];
                 }
                 $result = $this->__db->queryF($sql);
 
-                $sql        = 'SELECT project_id FROM ' . $this->__db->prefix('ws_tasks') . ' WHERE task_id=' . $this->_vars['task_id'];
-                $result     = $this->__db->query($sql);
+                $sql        = 'SELECT project_id FROM ' . $this->__db->prefix('wsproject_tasks') . ' WHERE task_id=' . $this->_vars['task_id'];
+                $result     = $this->__db->queryF($sql);
                 $project_id = $this->__db->fetchArray($result);
                 $project_id = $project_id['project_id'];
 
@@ -1470,17 +1470,17 @@ class showTask extends wsClass
      * @desc protected holt die Daten aus der DB
      * @protected
      */
-    public function _getData()
+    protected function _getData()
     {
         //init data variable
         $this->__data = array();
 
-        $tb_tasks    = $this->__db->prefix('ws_tasks');
-        $tb_projects = $this->__db->prefix('ws_projects');
+        $tb_tasks    = $this->__db->prefix('wsproject_tasks');
+        $tb_projects = $this->__db->prefix('wsproject_projects');
 
         //Die gewählte Aufgabe holen
         $sql    = 'SELECT task_id, project_id, user_id, title, hours, startdate, enddate, status, description, public, parent_id FROM ' . $tb_tasks . ' WHERE task_id=' . $this->_vars['task_id'];
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
 
         while ($task = $this->__db->fetchArray($result)) {
             $task['title']       = stripslashes($task['title']);
@@ -1491,7 +1491,7 @@ class showTask extends wsClass
 
         //get parent task
         $sql    = 'SELECT task_id, project_id, user_id, title, hours, startdate, enddate, status, description, public FROM ' . $tb_tasks . ' WHERE task_id=' . $this->__data['parent_id'];
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($parent = $this->__db->fetchArray($result)) {
             $parent['title']        = stripslashes($parent['title']);
             $parent['description']  = stripslashes($parent['description']);
@@ -1501,7 +1501,7 @@ class showTask extends wsClass
 
         //get children tasks
         $sql    = 'SELECT task_id, project_id, user_id, title, hours, startdate, enddate, status, description, public FROM ' . $tb_tasks . ' WHERE parent_id=' . $this->__data['task_id'];
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($child = $this->__db->fetchArray($result)) {
             $child['title']             = stripslashes($child['title']);
             $child['description']       = stripslashes($child['description']);
@@ -1511,7 +1511,7 @@ class showTask extends wsClass
 
         //get Projekt Name
         $sql    = 'SELECT name FROM ' . $tb_projects . ' WHERE project_id=' . $this->__data['project_id'];
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($projekt = $this->__db->fetchArray($result)) {
             $this->__data['project_name'] = stripslashes($projekt['name']);
         }
@@ -1598,8 +1598,8 @@ class addTask extends wsClass
         $count  = 0;
         $table  = "<table>\n";
         $table  .= "<tr><td><input type=radio name='series' value=''> " . _WS_SERIES_NONE . " </td></tr>\n";
-        $sql    = 'SELECT * FROM ' . $this->__db->prefix('ws_projects') . ' WHERE NOT deleted';
-        $result = $this->__db->query($sql);
+        $sql    = 'SELECT * FROM ' . $this->__db->prefix('wsproject_projects') . ' WHERE NOT deleted';
+        $result = $this->__db->queryF($sql);
         while ($projects = $this->__db->fetchArray($result)) {
             $projectName = stripslashes($projects['name']);
             if (strpos(' ' . $projectName, '*')) {
@@ -1622,17 +1622,17 @@ class addTask extends wsClass
      * @desc protected holt die Daten aus der DB
      * @protected
      */
-    public function _getData()
+    protected function _getData()
     {
         //init data variable
         $this->__data = array();
 
-        $tb_tasks    = $this->__db->prefix('ws_tasks');
-        $tb_projects = $this->__db->prefix('ws_projects');
+        $tb_tasks    = $this->__db->prefix('wsproject_tasks');
+        $tb_projects = $this->__db->prefix('wsproject_projects');
 
         //get Projekt Name
         $sql    = 'SELECT name FROM ' . $tb_projects . ' WHERE project_id=' . $this->_vars['project_id'];
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($projekt = $this->__db->fetchArray($result)) {
             $this->__data['project_name'] = stripslashes($projekt['name']);
             $this->__data['project_id']   = $this->_vars['project_id'];
@@ -1677,7 +1677,7 @@ class addTask extends wsClass
 
         //get all tasks
         $sql    = 'SELECT task_id, title, parent_id FROM ' . $tb_tasks . ' WHERE deleted = 0 AND status < 100 AND project_id=' . $this->_vars['project_id'] . ' ORDER BY parent_id';
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($task = $this->__db->fetchArray($result)) {
             //hier nur setzen der Felder, da eventuell schon andere Info's gesetzt wurden, wenn bereits eine Unteraufgabe in der DB stand
             $this->__data['tasks'][$task['task_id']]['task_id']   = $task['task_id'];
@@ -1771,17 +1771,17 @@ class editProject extends wsClass
             if ($this->_vars['subop'] == 'save') {
                 $start  = $this->_vars['startyear'] . '-' . $this->_vars['startmonth'] . '-' . $this->_vars['startday'];
                 $end    = $this->_vars['endyear'] . '-' . $this->_vars['endmonth'] . '-' . $this->_vars['endday'];
-                $sql    = 'UPDATE ' . $this->__db->prefix('ws_projects') . " SET
+                $sql    = 'UPDATE ' . $this->__db->prefix('wsproject_projects') . " SET
 								name = '" . $this->_vars['name'] . "',
 								startdate = '" . $start . "',
 								enddate = '" . $end . "',
 								description= '" . $this->_vars['description'] . "' WHERE project_id='" . $this->_vars['project_id'] . "'";
-                $result = $this->__db->query($sql);
+                $result = $this->__db->queryF($sql);
 
-                $tb_res = $this->__db->prefix('ws_restrictions');
+                $tb_res = $this->__db->prefix('wsproject_restrictions');
                 //delete old restrictions
                 $sql    = 'DELETE FROM ' . $tb_res . " WHERE project_id='" . $this->_vars['project_id'] . "'";
-                $result = $this->__db->query($sql);
+                $result = $this->__db->queryF($sql);
 
                 //add user restrictions
                 if (isset($this->_vars['projectadmin_groups'])) {
@@ -1790,7 +1790,7 @@ class editProject extends wsClass
 							VALUES ('" . $group_id . "',
 									'" . $this->_vars['project_id'] . "',
 									'" . _WSRES_ADMIN . "')";
-                        $result = $this->__db->query($sql);
+                        $result = $this->__db->queryF($sql);
                     }
                 }
 
@@ -1800,7 +1800,7 @@ class editProject extends wsClass
 							VALUES ('" . $group_id . "',
 									'" . $this->_vars['project_id'] . "',
 									'" . _WSRES_USER . "')";
-                        $result = $this->__db->query($sql);
+                        $result = $this->__db->queryF($sql);
                     }
                 }
             }
@@ -1816,16 +1816,16 @@ class editProject extends wsClass
      * @desc protected holt die Daten aus der DB
      * @protected
      */
-    public function _getData()
+    protected function _getData()
     {
         //init data variable
         $this->__data = array();
         $this->__data = getDateInfo();
-        $tb_projects  = $this->__db->prefix('ws_projects');
+        $tb_projects  = $this->__db->prefix('wsproject_projects');
 
         //get Projekt Name
         $sql     = 'SELECT name, startdate, enddate, description FROM ' . $tb_projects . ' WHERE project_id=' . $this->_vars['project_id'];
-        $result  = $this->__db->query($sql);
+        $result  = $this->__db->queryF($sql);
         $project = $this->__db->fetchArray($result);
 
         $project['name']        = stripslashes($project['name']);
@@ -1907,11 +1907,11 @@ class addProject extends wsClass
      * @desc protected holt die Daten aus der DB
      * @protected
      */
-    public function _getData()
+    protected function _getData()
     {
         //init data variable
         $this->__data = array();
-        $tb_projects  = $this->__db->prefix('ws_projects');
+        $tb_projects  = $this->__db->prefix('wsproject_projects');
 
         $this->__data = getDateInfo();
 
@@ -1977,16 +1977,16 @@ class deleteProject extends wsClass
      * @desc protected holt die Daten aus der DB
      * @protected
      */
-    public function _getData()
+    protected function _getData()
     {
         //init data variable
         $this->__data = array();
 
-        $tb_projects = $this->__db->prefix('ws_projects');
+        $tb_projects = $this->__db->prefix('wsproject_projects');
 
         //get Projekt Name
         $sql    = 'SELECT name FROM ' . $tb_projects . ' WHERE project_id=' . $this->_vars['project_id'];
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($projekt = $this->__db->fetchArray($result)) {
             $this->__data['name']       = stripslashes($projekt['name']);
             $this->__data['project_id'] = $this->_vars['project_id'];
@@ -2048,16 +2048,16 @@ class deleteTask extends wsClass
      * @desc protected holt die Daten aus der DB
      * @protected
      */
-    public function _getData()
+    protected function _getData()
     {
         //init data variable
         $this->__data = array();
 
-        $tb_tasks = $this->__db->prefix('ws_tasks');
+        $tb_tasks = $this->__db->prefix('wsproject_tasks');
 
         //get Projekt Name
         $sql                        = 'SELECT title, project_id FROM ' . $tb_tasks . ' WHERE task_id=' . $this->_vars['task_id'];
-        $result                     = $this->__db->query($sql);
+        $result                     = $this->__db->queryF($sql);
         $task                       = $this->__db->fetchArray($result);
         $this->__data['title']      = stripslashes($task['title']);
         $this->__data['project_id'] = $task['project_id'];
@@ -2066,7 +2066,7 @@ class deleteTask extends wsClass
 
         //Check for subtasks
         $sql                         = 'SELECT count(*) AS subcount FROM ' . $tb_tasks . ' WHERE parent_id=' . $this->_vars['task_id'];
-        $result                      = $this->__db->query($sql);
+        $result                      = $this->__db->queryF($sql);
         $count                       = $this->__db->fetchArray($result);
         $this->__data['haschildren'] = (($count['subcount'] > 0) ? true : false);
         $this->__db->freeRecordSet($result);
@@ -2126,17 +2126,17 @@ class editTask extends wsClass
      * @desc protected holt die Daten aus der DB
      * @protected
      */
-    public function _getData()
+    protected function _getData()
     {
         //init data variable
         $this->__data = array();
 
-        $tb_tasks    = $this->__db->prefix('ws_tasks');
-        $tb_projects = $this->__db->prefix('ws_projects');
+        $tb_tasks    = $this->__db->prefix('wsproject_tasks');
+        $tb_projects = $this->__db->prefix('wsproject_projects');
 
         //get task
         $sql                 = 'SELECT project_id, user_id, title, hours, description, status, public, parent_id FROM ' . $tb_tasks . ' WHERE task_id=' . $this->_vars['task_id'];
-        $result              = $this->__db->query($sql);
+        $result              = $this->__db->queryF($sql);
         $task                = $this->__db->fetchArray($result);
         $task['title']       = stripslashes($task['title']);
         $task['description'] = stripslashes($task['description']);
@@ -2155,7 +2155,7 @@ class editTask extends wsClass
 
         //get Projekt Name
         $sql                          = 'SELECT name FROM ' . $tb_projects . ' WHERE project_id=' . $task['project_id'];
-        $result                       = $this->__db->query($sql);
+        $result                       = $this->__db->queryF($sql);
         $projekt                      = $this->__db->fetchArray($result);
         $this->__data['project_name'] = stripslashes($projekt['name']);
         $this->__db->freeRecordSet($result);
@@ -2190,7 +2190,7 @@ class editTask extends wsClass
 
         //get all tasks
         $sql    = 'SELECT task_id, title, parent_id FROM ' . $tb_tasks . ' WHERE deleted = 0 AND status < 100 AND project_id=' . $task['project_id'] . ' ORDER BY parent_id';
-        $result = $this->__db->query($sql);
+        $result = $this->__db->queryF($sql);
         while ($task = $this->__db->fetchArray($result)) {
             //Nammen der Übergeordneten aufgabe setzen
             if ($task['task_id'] == $this->__data['parent_id']) {

@@ -38,12 +38,12 @@ function b_wsproject_show_projectoverview($options)
         $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
         //init data variable
         $data        = array();
-        $tb_tasks    = $xoopsDB->prefix('ws_tasks');
-        $tb_projects = $xoopsDB->prefix('ws_projects');
+        $tb_tasks    = $xoopsDB->prefix('wsproject_tasks');
+        $tb_projects = $xoopsDB->prefix('wsproject_projects');
         foreach ($options as $proj_id) {
             //Das ausgewählte Projekt holen
             $sql    = 'SELECT project_id, name, startdate, enddate, completed, completed_date, description FROM ' . $tb_projects . ' WHERE project_id=' . $proj_id;
-            $result = $xoopsDB->query($sql);
+            $result = $xoopsDB->queryF($sql);
 
             $project         = $xoopsDB->fetchArray($result);
             $project['done'] = 0; //initialiseren, falls eine spätere query keien daten zu dem projekt liefert
@@ -53,14 +53,14 @@ function b_wsproject_show_projectoverview($options)
 
             //get sum houres done
             $sql    = 'SELECT SUM(hours) AS done FROM ' . $tb_tasks . ' WHERE status = 100 AND deleted = 0 AND project_id=' . $proj_id;
-            $result = $xoopsDB->query($sql);
+            $result = $xoopsDB->queryF($sql);
             while ($done = $xoopsDB->fetchArray($result)) {
                 $data[$proj_id]['done'] = (($done['done'] != '') ? $done['done'] : 0);
             }
 
             //get sum houres open
             $sql    = 'SELECT SUM(hours) AS todo FROM ' . $tb_tasks . ' WHERE status < 100 AND deleted = 0 AND project_id=' . $proj_id;
-            $result = $xoopsDB->query($sql);
+            $result = $xoopsDB->queryF($sql);
             while ($todo = $xoopsDB->fetchArray($result)) {
                 $data[$proj_id]['todo'] = (($todo['todo'] != '') ? $todo['todo'] : 0);
             }
@@ -97,7 +97,7 @@ function b_wsproject_show_projectoverview($options)
 
             //get all tasks
             $sql    = 'SELECT task_id, user_id, title, hours, status, public, parent_id, description FROM ' . $tb_tasks . ' WHERE deleted = 0 AND public=1 AND project_id=' . $proj_id . ' ORDER BY title';
-            $result = $xoopsDB->query($sql);
+            $result = $xoopsDB->queryF($sql);
             while ($task = $xoopsDB->fetchArray($result)) {
                 //hier nur setzen der Felder, da eventuell schon andere Info's gesetzt wurden, wenn bereits eine Unteraufgabe in der DB stand
                 $data[$proj_id]['tasks'][$task['task_id']]['task_id']     = $task['task_id'];

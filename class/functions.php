@@ -137,8 +137,8 @@ function createMiniBar($colour, $percent)
  *
  * $groups = array();
  *
- * $sql = "SELECT conf_value FROM ".$xoopsDB->prefix("ws_project")." WHERE conf_name = 'used_group'";
- * $result = $xoopsDB->query($sql);
+ * $sql = "SELECT conf_value FROM ".$xoopsDB->prefix("wsproject_project")." WHERE conf_name = 'used_group'";
+ * $result = $xoopsDB->queryF($sql);
  * while ($group_id = $xoopsDB->fetchRow($result)) {
  * $groups[] = $group_id[0];
  * }
@@ -154,14 +154,14 @@ function createMiniBar($colour, $percent)
  * function setUsedGroups($groups) {
  * $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
  *
- * $tb_conf = $xoopsDB->prefix("ws_project");
+ * $tb_conf = $xoopsDB->prefix("wsproject_project");
  *
  * $sql = "DELETE FROM ".$tb_conf." WHERE conf_name='used_group'";
- * $result = $xoopsDB->query($sql);
+ * $result = $xoopsDB->queryF($sql);
  *
  * foreach ($groups as $value) {
  * $sql = "INSERT INTO ".$tb_conf." (conf_name, conf_value) VALUES ('used_group', '".$value."')";
- * $result = $xoopsDB->query($sql);
+ * $result = $xoopsDB->queryF($sql);
  * }
  * }
  */
@@ -176,8 +176,8 @@ function getAdminGroups()
 
     $groups = array();
 
-    $sql    = 'SELECT conf_value FROM ' . $xoopsDB->prefix('ws_project') . " WHERE conf_name = 'admin_group'";
-    $result = $xoopsDB->query($sql);
+    $sql    = 'SELECT conf_value FROM ' . $xoopsDB->prefix('wsproject_project') . " WHERE conf_name = 'admin_group'";
+    $result = $xoopsDB->queryF($sql);
     while ($group_id = $xoopsDB->fetchRow($result)) {
         $groups[] = $group_id[0];
     }
@@ -195,14 +195,14 @@ function setAdminGroups($groups)
 {
     $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
 
-    $tb_conf = $xoopsDB->prefix('ws_project');
+    $tb_conf = $xoopsDB->prefix('wsproject_project');
 
     $sql    = 'DELETE FROM ' . $tb_conf . " WHERE conf_name='admin_group'";
-    $result = $xoopsDB->query($sql);
+    $result = $xoopsDB->queryF($sql);
 
     foreach ($groups as $value) {
         $sql    = 'INSERT INTO ' . $tb_conf . " (conf_name, conf_value) VALUES ('admin_group', '" . $value . "')";
-        $result = $xoopsDB->query($sql);
+        $result = $xoopsDB->queryF($sql);
     }
 }
 
@@ -214,12 +214,12 @@ function getProjectsIdAndName()
 {
     $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
 
-    $tb_projects = $xoopsDB->prefix('ws_projects');
+    $tb_projects = $xoopsDB->prefix('wsproject_projects');
 
     $r = array();
 
     $sql    = 'SELECT name, project_id FROM ' . $tb_projects;
-    $result = $xoopsDB->query($sql);
+    $result = $xoopsDB->queryF($sql);
     while ($project = $xoopsDB->fetchArray($result)) {
         $r[] = $project;
     }

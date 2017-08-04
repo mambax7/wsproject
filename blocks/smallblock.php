@@ -39,8 +39,8 @@ function b_wsproject_show_smallblock($options)
     $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
 
     if ($options[0] == 'random') {
-        $sql    = 'SELECT project_id FROM ' . $xoopsDB->prefix('ws_projects');
-        $result = $xoopsDB->query($sql);
+        $sql    = 'SELECT project_id FROM ' . $xoopsDB->prefix('wsproject_projects');
+        $result = $xoopsDB->queryF($sql);
         $count  = $xoopsDB->getRowsNum($result);
         $ran    = mt_rand(1, $count);
         $i      = 0;
@@ -53,19 +53,19 @@ function b_wsproject_show_smallblock($options)
     } else {
         $project_id = $options[0];
     }
-    $sql     = 'SELECT name, startdate, enddate, description FROM ' . $xoopsDB->prefix('ws_projects') . ' WHERE project_id=' . $project_id;
-    $result  = $xoopsDB->query($sql);
+    $sql     = 'SELECT name, startdate, enddate, description FROM ' . $xoopsDB->prefix('wsproject_projects') . ' WHERE project_id=' . $project_id;
+    $result  = $xoopsDB->queryF($sql);
     $project = $xoopsDB->fetchArray($result);
 
     //get sum houres done
-    $sql    = 'SELECT SUM(hours) AS done FROM ' . $xoopsDB->prefix('ws_tasks') . ' WHERE status = 100 AND deleted = 0 AND project_id=' . $project_id;
-    $result = $xoopsDB->query($sql);
+    $sql    = 'SELECT SUM(hours) AS done FROM ' . $xoopsDB->prefix('wsproject_tasks') . ' WHERE status = 100 AND deleted = 0 AND project_id=' . $project_id;
+    $result = $xoopsDB->queryF($sql);
     $done   = $xoopsDB->fetchArray($result);
     $done   = $done['done'];
 
     //get sum houres open
-    $sql    = 'SELECT SUM(hours) AS todo FROM ' . $xoopsDB->prefix('ws_tasks') . ' WHERE status < 100 AND deleted = 0 AND project_id=' . $project_id;
-    $result = $xoopsDB->query($sql);
+    $sql    = 'SELECT SUM(hours) AS todo FROM ' . $xoopsDB->prefix('wsproject_tasks') . ' WHERE status < 100 AND deleted = 0 AND project_id=' . $project_id;
+    $result = $xoopsDB->queryF($sql);
     $todo   = $xoopsDB->fetchArray($result);
     $todo   = $todo['todo'];
 

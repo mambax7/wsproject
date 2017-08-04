@@ -3,10 +3,10 @@
 
 
 #
-# Table structure for table 'ws_restrictions'
+# Table structure for table 'wsproject_restrictions'
 #
 
-CREATE TABLE ws_restrictions (
+CREATE TABLE wsproject_restrictions (
   res_id     TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   user_id    TINYINT(3) UNSIGNED          DEFAULT '0',
   group_id   TINYINT(3) UNSIGNED          DEFAULT '0',
@@ -24,7 +24,7 @@ CREATE TABLE ws_restrictions (
 # This table contains your configuration
 #
 
-CREATE TABLE ws_project (
+CREATE TABLE wsproject_project (
   conf_id    TINYINT(3) UNSIGNED NOT NULL AUTO_INCREMENT,
   conf_name  VARCHAR(20)         NOT NULL DEFAULT '0',
   conf_value VARCHAR(20)         NOT NULL DEFAULT '0',
@@ -39,14 +39,14 @@ CREATE TABLE ws_project (
 # This table contains your projects
 #
 
-CREATE TABLE ws_projects (
+CREATE TABLE wsproject_projects (
   project_id     INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
   name           VARCHAR(100)              DEFAULT NULL,
-  startdate      DATE                      DEFAULT NULL,
-  enddate        DATE                      DEFAULT NULL,
+  startdate      DATETIME                  DEFAULT NULL,
+  enddate        DATETIME                  DEFAULT NULL,
   description    TEXT,
   completed      TINYINT(1)                DEFAULT '0',
-  completed_date DATE                      DEFAULT NULL,
+  completed_date DATETIME                  DEFAULT NULL,
   deleted        TINYINT(1) UNSIGNED       DEFAULT '0',
   PRIMARY KEY (project_id)
 )
@@ -56,7 +56,7 @@ CREATE TABLE ws_projects (
 # Table structure for table 'tasks'
 #
 
-CREATE TABLE ws_tasks (
+CREATE TABLE wsproject_tasks (
   task_id     INT(10) UNSIGNED      NOT NULL AUTO_INCREMENT,
   project_id  INT(10) UNSIGNED      NOT NULL DEFAULT '1',
   user_id     MEDIUMINT(8) UNSIGNED NOT NULL DEFAULT '0',
