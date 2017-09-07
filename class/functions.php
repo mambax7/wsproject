@@ -174,7 +174,7 @@ function getAdminGroups()
 {
     $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
 
-    $groups = array();
+    $groups = [];
 
     $sql    = 'SELECT conf_value FROM ' . $xoopsDB->prefix('wsproject_project') . " WHERE conf_name = 'admin_group'";
     $result = $xoopsDB->queryF($sql);
@@ -216,7 +216,7 @@ function getProjectsIdAndName()
 
     $tb_projects = $xoopsDB->prefix('wsproject_projects');
 
-    $r = array();
+    $r = [];
 
     $sql    = 'SELECT name, project_id FROM ' . $tb_projects;
     $result = $xoopsDB->queryF($sql);
@@ -234,7 +234,7 @@ function getProjectsIdAndName()
 function sortTasksBySubTasks(&$project)
 {
     if (isset($project['tasks'])) {
-        $new_array = array();
+        $new_array = [];
         foreach ($project['tasks'] as $key => $value) {
             if (isset($value['parent_id']) and $value['parent_id'] == '0') {
                 $withoutChild = $value;
@@ -343,7 +343,7 @@ function getStatusInfos(&$data)
  */
 function getDateInfo()
 {
-    $re = array();
+    $re = [];
     for ($i = 1; $i <= 12; $i++) {
         $re['month'][$i] = date('M', mktime(0, 0, 0, $i, 1, 2000));
     }

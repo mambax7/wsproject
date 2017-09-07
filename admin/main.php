@@ -75,7 +75,7 @@ if (isset($vars)) {
         if (isset($vars['admingroup'])) {
             setAdminGroups($vars['admingroup']);
         } else {
-            setAdminGroups(array());
+            setAdminGroups([]);
         }
     }
 }

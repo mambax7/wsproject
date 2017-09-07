@@ -61,4 +61,3 @@ $moduleHelper->loadLanguage('main');
 //$XXXHandler = xoops_getModuleHandler('XXX', $moduleDirName);
 
 //xoops_cp_header();
-

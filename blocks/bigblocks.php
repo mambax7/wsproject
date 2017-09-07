@@ -37,7 +37,7 @@ function b_wsproject_show_projectoverview($options)
     if (isset($options[0]) and $options[0] != '') {
         $xoopsDB = XoopsDatabaseFactory::getDatabaseConnection();
         //init data variable
-        $data        = array();
+        $data        = [];
         $tb_tasks    = $xoopsDB->prefix('wsproject_tasks');
         $tb_projects = $xoopsDB->prefix('wsproject_projects');
         foreach ($options as $proj_id) {

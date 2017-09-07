@@ -45,18 +45,18 @@ $modversion['module_website_name'] = 'XOOPS';
 $modversion['min_php']             = '5.5';
 $modversion['min_xoops']           = '2.5.9';
 $modversion['min_admin']           = '1.2';
-$modversion['min_db']              = array('mysql' => '5.5');
+$modversion['min_db']              = ['mysql' => '5.5'];
 
 // ------------------- Mysql ------------------- //
 $modversion['sqlfile']['mysql'] = 'sql/mysql.sql';
 
 // Tables created by sql file (without prefix!)
-$modversion['tables'] = array(
+$modversion['tables'] = [
     $moduleDirName . '_' . 'projects',
     $moduleDirName . '_' . 'tasks',
     $moduleDirName . '_' . 'project',
     $moduleDirName . '_' . 'restrictions',
-);
+];
 
 // Tables created by sql file (without prefix)
 //$modversion['tables'][0] = 'wsproject_projects';
@@ -74,12 +74,12 @@ $modversion['adminmenu']  = 'admin/menu.php';
 $modversion['system_menu'] = 1;
 
 // ------------------- Help files ------------------- //
-$modversion['helpsection'] = array(
+$modversion['helpsection'] = [
     ['name' => _MI_WSPROJECT_OVERVIEW, 'link' => 'page=help'],
     ['name' => _MI_WSPROJECT_DISCLAIMER, 'link' => 'page=disclaimer'],
     ['name' => _MI_WSPROJECT_LICENSE, 'link' => 'page=license'],
     ['name' => _MI_WSPROJECT_SUPPORT, 'link' => 'page=support'],
-);
+];
 
 // Menu
 $modversion['hasMain']        = 1; // This set if it is going to be shown in the site main menu or not 1 or 0.
@@ -178,7 +178,7 @@ $modversion['notification']['category'][2]['allow_bookmark'] = 1;
 $modversion['notification']['category'][3]['name']           = 'global';
 $modversion['notification']['category'][3]['title']          = _MI_WSPROJECT_GLOBAL_NOTIFY;
 $modversion['notification']['category'][3]['description']    = _MI_WSPROJECT_GLOBAL_NOTIFYDSC;
-$modversion['notification']['category'][3]['subscribe_from'] = array('index.php', '');
+$modversion['notification']['category'][3]['subscribe_from'] = ['index.php', ''];
 
 $modversion['notification']['event'][1]['name']          = 'new_project';
 $modversion['notification']['event'][1]['category']      = 'global';

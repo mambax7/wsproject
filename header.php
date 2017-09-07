@@ -26,5 +26,5 @@
 //  ------------------------------------------------------------------------ //
 
 //include __DIR__ . '/../../mainfile.php';
-require_once __DIR__ . '/../../include/cp_header.php';
+require_once __DIR__ . '/../../mainfile.php';
 include __DIR__ . '/class/core.php';

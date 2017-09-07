@@ -135,7 +135,7 @@ class wsProject
         }
 
         //Initialisierung der Variablen
-        if (isset($vars)) {
+        if ('null !== $vars') {
             $action->_vars = $vars;
         }
 
@@ -195,7 +195,7 @@ class wsProject
      */
     public function getErrAndMsg()
     {
-        return array('err' => $this->__errors, 'msg' => $this->__msg);
+        return ['err' => $this->__errors, 'msg' => $this->__msg];
     }
 
     /**
@@ -251,9 +251,9 @@ class wsClass extends wsProject
         $this->__db      = XoopsDatabaseFactory::getDatabaseConnection();
 
         //Hole Xoops Variablen
-        global $xoopsUser, $xoopsTpl, $xoopsOption;
-        $memberHandler = xoops_getHandler('member');
-        $this->_xoopsUser     = $xoopsUser;
+        global $xoopsTpl, $xoopsOption;
+        $memberHandler        = xoops_getHandler('member');
+        $this->_xoopsUser     = $GLOBALS['xoopsUser'];
         $this->_xoopsTpl      = $xoopsTpl;
         $this->_xoopsOption   = $xoopsOption;
         $this->_memberHandler = $memberHandler;
@@ -345,7 +345,7 @@ class wsClass extends wsProject
      */
     public function _getSubTasks($task_id)
     {
-        $result     = array();
+        $result     = [];
         $sql        = 'SELECT task_id FROM ' . $this->__db->prefix('wsproject_tasks') . ' WHERE parent_id=' . $task_id;
         $qry_result = $this->__db->queryF($sql);
         while ($task = $this->__db->fetchArray($qry_result)) {
@@ -375,7 +375,7 @@ class wsClass extends wsProject
     public function sortTasksBySubTasks()
     {
         if (isset($this->__data['tasks'])) {
-            $new_array = array();
+            $new_array = [];
             foreach ($this->__data['tasks'] as $key => $value) {
                 if ($value['parent_id'] == '0') {
                     //FIX for PHP5
@@ -435,7 +435,7 @@ class wsClass extends wsProject
      */
     public function _isAdmin()
     {
-        if ($this->_xoopsUser === null) {
+        if (!is_object($this->_xoopsUser) || null === $this->_xoopsUser) {
             return false;
         }
         if ($this->__isAdmin === null) {
@@ -457,7 +457,7 @@ class wsClass extends wsProject
      */
     public function _isProjectAdmin($project_id, $task_id = null)
     {
-        if ($this->_xoopsUser === null) {
+        if (!is_object($this->_xoopsUser) || null === $this->_xoopsUser) {
             return false;
         }
         if ($this->_isAdmin()) {
@@ -474,7 +474,7 @@ class wsClass extends wsProject
 
             $sql         = 'SELECT group_id FROM ' . $this->__db->prefix('wsproject_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_ADMIN . "'";
             $result      = $this->__db->queryF($sql);
-            $admingroups = array();
+            $admingroups = [];
             while ($id = $this->__db->fetchArray($result)) {
                 $admingroups[] = $id['group_id'];
             }
@@ -496,6 +496,9 @@ class wsClass extends wsProject
      */
     public function _isTaskOwner($task_id)
     {
+        if (!is_object($this->_xoopsUser) || null === $this->_xoopsUser) {
+            return false;
+        }
         if ($this->_isAdmin()) {
             return true;
         } else {
@@ -520,7 +523,7 @@ class wsClass extends wsProject
      */
     public function _isProjectUser($project_id, $task_id = null)
     {
-        if ($this->_xoopsUser === null) {
+        if (!is_object($this->_xoopsUser) || null === $this->_xoopsUser) {
             return false;
         }
         if ($this->_isAdmin()) {
@@ -537,7 +540,7 @@ class wsClass extends wsProject
 
             $sql        = 'SELECT group_id FROM ' . $this->__db->prefix('wsproject_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_USER . "'";
             $result     = $this->__db->queryF($sql);
-            $usergroups = array();
+            $usergroups = [];
             while ($id = $this->__db->fetchArray($result)) {
                 $usergroups[] = $id['group_id'];
             }
@@ -561,7 +564,7 @@ class wsClass extends wsProject
     {
         $sql    = 'SELECT group_id FROM ' . $this->__db->prefix('wsproject_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_ADMIN . "'";
         $result = $this->__db->queryF($sql);
-        $r      = array();
+        $r      = [];
         while ($id = $this->__db->fetchArray($result)) {
             $r[] = $id['group_id'];
         }
@@ -580,7 +583,7 @@ class wsClass extends wsProject
     {
         $sql    = 'SELECT group_id FROM ' . $this->__db->prefix('wsproject_restrictions') . " WHERE project_id='" . $project_id . "' AND user_rank='" . _WSRES_USER . "'";
         $result = $this->__db->queryF($sql);
-        $r      = array();
+        $r      = [];
         while ($id = $this->__db->fetchArray($result)) {
             $r[] = $id['group_id'];
         }
@@ -621,8 +624,11 @@ class myTasks extends wsClass
      */
     protected function _getData()
     {
+        if (!is_object($this->_xoopsUser) || null === $this->_xoopsUser) {
+            return false;
+        }
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
 
         $tb_tasks    = $this->__db->prefix('wsproject_tasks');
         $tb_projects = $this->__db->prefix('wsproject_projects');
@@ -828,7 +834,7 @@ class listProjects extends wsClass
 								'" . $start . "',
 								'" . $end . "',
 								'" . $this->_vars['description'] . "',
-								'0', null, '0')";
+								'0', NULL, '0')";
                 $result = $this->__db->queryF($sql);
 
                 //MERKEN: Holt die letzte ID die durch ein Insert generiert wurde
@@ -893,7 +899,7 @@ class listProjects extends wsClass
                 break;
         }
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
 
         $tb_tasks    = $this->__db->prefix('wsproject_tasks');
         $tb_projects = $this->__db->prefix('wsproject_projects');
@@ -935,7 +941,7 @@ class listProjects extends wsClass
             }
             //Umorganisieren des arrays, da noch eine variable fehlt im template
             $temp                     = $this->__data;
-            $this->__data             = array();
+            $this->__data             = [];
             $this->__data['projects'] = $temp;
         }
         $this->__data['sort'] = $sortorder;
@@ -1009,7 +1015,7 @@ class listCompletedProjects extends wsClass
                 break;
         }
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
 
         $tb_tasks    = $this->__db->prefix('wsproject_tasks');
         $tb_projects = $this->__db->prefix('wsproject_projects');
@@ -1040,7 +1046,7 @@ class listCompletedProjects extends wsClass
         }
         //Umorganisieren des arrays, da noch eine variable fehlt im template
         $temp                          = $this->__data;
-        $this->__data                  = array();
+        $this->__data                  = [];
         $this->__data['projects']      = $temp;
         $this->__data['sort']          = $sortorder;
         $this->__data['user']['admin'] = $this->_isAdmin();
@@ -1103,7 +1109,7 @@ class showProject extends wsClass
 								'" . $this->_vars['title'] . "',
 								'" . $this->_vars['hours'] . "',
 								NOW(),
-								null,
+								NULL,
 								'" . $this->_vars['description'] . "',
 								'0',
 								'" . (isset($this->_vars['public']) ? '1' : '0') . "',
@@ -1124,7 +1130,7 @@ class showProject extends wsClass
 
                 //uses XoopsNotify System
                 //$users = array($this->_memberHandler->getUser($this->_vars['user_id']));
-                $users               = array($this->_vars['user_id']);
+                $users               = [$this->_vars['user_id']];
                 $notificationHandler = xoops_getHandler('notification');
                 $notificationHandler->triggerEvent('project', $this->_vars['project_id'], 'new_task', $extra_tags, $users);
             } elseif ($this->_vars['subop'] == 'deletetask' and $this->_isProjectAdmin($this->_vars['project_id'])) {
@@ -1204,7 +1210,7 @@ class showProject extends wsClass
                 break;
         }
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
 
         $tb_tasks    = $this->__db->prefix('wsproject_tasks');
         $tb_projects = $this->__db->prefix('wsproject_projects');
@@ -1473,7 +1479,7 @@ class showTask extends wsClass
     protected function _getData()
     {
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
 
         $tb_tasks    = $this->__db->prefix('wsproject_tasks');
         $tb_projects = $this->__db->prefix('wsproject_projects');
@@ -1625,7 +1631,7 @@ class addTask extends wsClass
     protected function _getData()
     {
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
 
         $tb_tasks    = $this->__db->prefix('wsproject_tasks');
         $tb_projects = $this->__db->prefix('wsproject_projects');
@@ -1640,13 +1646,13 @@ class addTask extends wsClass
         $this->__db->freeRecordSet($result);
 
         //Benutzer holen, denen Aufgaben zugewiesen werden können
-        $this->__data['users'] = array();
+        $this->__data['users'] = [];
         $groups                = $this->_getProjectUserGroups($this->_vars['project_id']);
         foreach ($groups as $group) {
             $userslist = $this->_memberHandler->getUsersByGroup($group, true);
             /** Sorting Patch on 12/08/2005
              * Added username sorting algorythm before output in tasks. By Azmeen */
-            $z = array();    /* Create a new temp array to store sorted username list */
+            $z = [];    /* Create a new temp array to store sorted username list */
             foreach ($userslist as $user) {
                 $u['uid']   = $user->getVar('uid');
                 $u['uname'] = $user->getVar('uname');
@@ -1819,7 +1825,7 @@ class editProject extends wsClass
     protected function _getData()
     {
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
         $this->__data = getDateInfo();
         $tb_projects  = $this->__db->prefix('wsproject_projects');
 
@@ -1910,7 +1916,7 @@ class addProject extends wsClass
     protected function _getData()
     {
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
         $tb_projects  = $this->__db->prefix('wsproject_projects');
 
         $this->__data = getDateInfo();
@@ -1980,7 +1986,7 @@ class deleteProject extends wsClass
     protected function _getData()
     {
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
 
         $tb_projects = $this->__db->prefix('wsproject_projects');
 
@@ -2051,7 +2057,7 @@ class deleteTask extends wsClass
     protected function _getData()
     {
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
 
         $tb_tasks = $this->__db->prefix('wsproject_tasks');
 
@@ -2129,7 +2135,7 @@ class editTask extends wsClass
     protected function _getData()
     {
         //init data variable
-        $this->__data = array();
+        $this->__data = [];
 
         $tb_tasks    = $this->__db->prefix('wsproject_tasks');
         $tb_projects = $this->__db->prefix('wsproject_projects');
@@ -2161,11 +2167,11 @@ class editTask extends wsClass
         $this->__db->freeRecordSet($result);
 
         //Benutzer holen, denen Aufgaben zugewiesen werden können
-        $this->__data['users'] = array();
+        $this->__data['users'] = [];
         $groups                = $this->_getProjectUserGroups($task['project_id']);
         foreach ($groups as $group) {
             $userslist = $this->_memberHandler->getUsersByGroup($group, true);
-            $z         = array();    /* Create a new temp array to store sorted username list */
+            $z         = [];    /* Create a new temp array to store sorted username list */
             foreach ($userslist as $user) {
                 $u['uid']   = $user->getVar('uid');
                 $u['uname'] = $user->getVar('uname');
